@@ -1,0 +1,111 @@
+<html>
+<head>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<body>
+<textarea id="tableDef" style="width:600px; height:200px">CREATE TABLE Cats 
+( block_id uuid ,
+	breed text  , 
+    color text  ,  
+  short_hair boolean,
+PRIMARY KEY (color, block_id, breed )
+)</textarea>
+<h3 id='valid'></h3>
+<div id="parameters"></div>
+<script>
+
+var keyList = [];
+var compKeyList = [];
+
+var processTableDef = function(value){
+	var cqlCreateTableRegex  = /^CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig;
+	//var cqlCreateTableRegex  = /^CREATE\s+TABLE\s+(\S+)\s*\((\S+\s+\S+\s*,\s*)+\S+\s+\S+\s*(\))\s*$/ig;
+	var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
+	var cqlCompoundPrimaryKeys = /\(\(\s*\S+\s+\S+\)/igm;
+	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\s*$/igm;
+	
+//	value = value.replace(/\n/g, " ");
+	if(cqlCreateTableRegex.test(value)){
+		keyList = [];
+		compKeyList = [];
+		
+		$('#valid').html("Table Validated, please insert expected sizes in bytes");
+		var i=0;
+		var columns =value.match(cqlColumnsRegex);
+		var columnLength = columns.length;
+		
+		//explicit primary keys
+		var keys = value.match(cqlPrimaryKeys);
+		if (keys !== null){
+			keys = keys.toString();
+			keys = keys.replace("PRIMARY KEY","").replace(/\(+/ig,"").replace(/\)+/gi,"").trim().split(",");
+			keys = $.each(keys,function(i, v){
+				keys[i] = v.trim();
+			});
+		}
+		
+		//compound keys
+		var compKeys = value.match(cqlCompoundPrimaryKeys);
+		if (compKeys !== null){
+			compKeys = compKeys.toString();
+			compKeys = compKeys.replace("PRIMARY KEY","").replace(/\(+/ig,"").replace(/\)+/gi,"").trim().split(",");
+			compKeys = $.each(compKeys,function(i, v){
+				compKeys[i] = v.trim();
+			});
+		}
+		
+		$('#parameters input').remove();
+		$('#parameters p').remove();
+		while (i<columnLength){
+			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(" ");
+			colString = colDat[0]+" of type "+colDat[1];
+			$('#parameters').append("<p>"+colString+"<\p>"+"<input></input>");
+			
+			if ($.inArray(colDat[0],keys)>=0 || (colDat.length>2 && colDat[2]=="PRIMARY" && colDat[3]=="KEY")){
+				keyList.push(i);
+			}if ($.inArray(colDat[0],compKeys)>=0){
+				compKeyList.push(i);
+			}
+
+			i=i+1;
+		}
+		
+		
+		
+		//key split and print
+		if (compKeyList != []){
+			var i=0;
+			var keyLength = keyList.length;
+			while (i< keyLength){
+				var shifted = keyList.shift();
+				if ($.inArray(shifted, compKeyList) < 0){
+					keyList.push(shifted);
+				}
+				i=i+1;
+			}
+			$('#parameters').append("<p>Compound Primary: "+compKeyList+" Clustering: "+keyList.toString()+"<\p>");	
+		
+		}else{
+		
+			var primaryKey = keyList[0];
+			keyList.shift();
+			$('#parameters').append("<p>Primary: "+primaryKey+" Clustering: "+keyList.toString()+"<\p>");
+		}
+		
+		
+		
+	}
+	else{
+		$('#valid').html("Invalid Syntax");
+	}
+}
+
+$("#tableDef").bind('input propertychange', function() {
+	processTableDef($("#tableDef").val())
+
+});
+
+</script>
+</body>
