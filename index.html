@@ -1,7 +1,7 @@
 <html>
 <head>
 <script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="jquery.js"></script>
 </head>
 
 <body>
@@ -20,13 +20,14 @@ var keyList = [];
 var compKeyList = [];
 
 var processTableDef = function(value){
+	
+//here's the regex defs
 	var cqlCreateTableRegex  = /^CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig;
-	//var cqlCreateTableRegex  = /^CREATE\s+TABLE\s+(\S+)\s*\((\S+\s+\S+\s*,\s*)+\S+\s+\S+\s*(\))\s*$/ig;
 	var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
 	var cqlCompoundPrimaryKeys = /\(\(\s*\S+\s+\S+\)/igm;
 	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\s*$/igm;
 	
-//	value = value.replace(/\n/g, " ");
+//	is the table definition valid?
 	if(cqlCreateTableRegex.test(value)){
 		keyList = [];
 		compKeyList = [];
@@ -36,7 +37,7 @@ var processTableDef = function(value){
 		var columns =value.match(cqlColumnsRegex);
 		var columnLength = columns.length;
 		
-		//explicit primary keys
+		//identify explicit primary keys
 		var keys = value.match(cqlPrimaryKeys);
 		if (keys !== null){
 			keys = keys.toString();
@@ -46,7 +47,7 @@ var processTableDef = function(value){
 			});
 		}
 		
-		//compound keys
+		//identify explicit compound keys
 		var compKeys = value.match(cqlCompoundPrimaryKeys);
 		if (compKeys !== null){
 			compKeys = compKeys.toString();
@@ -59,13 +60,20 @@ var processTableDef = function(value){
 		$('#parameters input').remove();
 		$('#parameters p').remove();
 		while (i<columnLength){
-			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(" ");
+			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/  /i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(" ");
 			colString = colDat[0]+" of type "+colDat[1];
 			$('#parameters').append("<p>"+colString+"<\p>"+"<input></input>");
 			
-			if ($.inArray(colDat[0],keys)>=0 || (colDat.length>2 && colDat[2]=="PRIMARY" && colDat[3]=="KEY")){
+			//inline primary key declaration
+			if ((colDat.length>2 && colDat[2]=="PRIMARY" && colDat[3]=="KEY")){
 				keyList.push(i);
-			}if ($.inArray(colDat[0],compKeys)>=0){
+			}
+			//add explicit keys to list
+			if($.inArray(colDat[0],keys) >= 0){
+				keyList[$.inArray(colDat[0],keys)] = i;
+			}
+			//add comp keys to list
+			if ($.inArray(colDat[0],compKeys)>=0){
 				compKeyList.push(i);
 			}
 
@@ -75,7 +83,7 @@ var processTableDef = function(value){
 		
 		
 		//key split and print
-		if (compKeyList != []){
+		if (compKeyList.length > 0){
 			var i=0;
 			var keyLength = keyList.length;
 			while (i< keyLength){
