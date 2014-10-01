@@ -27,6 +27,9 @@ var processTableDef = function(value){
 	var cqlCompoundPrimaryKeys = /\(\(\s*\S+\s+\S+\)/igm;
 	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\s*$/igm;
 	
+	
+	$('#parameters input').remove();
+	$('#parameters p').remove();
 //	is the table definition valid?
 	if(cqlCreateTableRegex.test(value)){
 		keyList = [];
@@ -57,10 +60,8 @@ var processTableDef = function(value){
 			});
 		}
 		
-		$('#parameters input').remove();
-		$('#parameters p').remove();
 		while (i<columnLength){
-			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/  /i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(" ");
+			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(/\s+/);
 			colString = colDat[0]+" of type "+colDat[1];
 			$('#parameters').append("<p>"+colString+"<\p>"+"<input></input>");
 			
@@ -102,6 +103,15 @@ var processTableDef = function(value){
 			$('#parameters').append("<p>Primary: "+primaryKey+" Clustering: "+keyList.toString()+"<\p>");
 		}
 		
+		//Here we'll be doing some math to figure out the table size etc:
+		/* Here's the math
+
+Number of rows * ( Number of Columns - Partition Keys - Static Columns ) + Static Columns = Number of Values
+
+
+Sum of the size of the Keys + Sum of the size of the static columns + Number of rows * ( Sum of the size of the rows + Sum of the size of the Clustering Columns) +  8 * Number of Values = Size of table
+				
+		*/
 		
 		
 	}
