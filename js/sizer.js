@@ -1,10 +1,12 @@
-
+//instantiate lists (global)
 var keyList = [];
 var compKeyList = [];
+var staticList = [];
 
-var staticCount = 0;
+//instantiate counts (global)
 var compLength = 0;
 var columnLength = 0;
+var primaryKey;
 
 var processTableDef = function(value){
 	
@@ -21,6 +23,7 @@ var processTableDef = function(value){
 	if(cqlCreateTableRegex.test(value)){
 		keyList = [];
 		compKeyList = [];
+		staticList = [];
 		
 		
 		$('#valid').html("Table Validated, please insert expected sizes in bytes");
@@ -54,7 +57,7 @@ var processTableDef = function(value){
 		while (i<columnLength){
 			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(/\s+/);
 			colString = colDat[0]+" of type "+colDat[1];
-			$('#parameters').append("<p>"+colString+"<\p>"+"<input></input>");
+			$('#parameters').append("<p>"+colString+"<\p>"+"<input id='columnSize_"+ i +"'></input>");
 			
 			//inline primary key declaration
 			if ((colDat.length>2 && colDat[2]=="PRIMARY" && colDat[3]=="KEY")){
@@ -62,7 +65,7 @@ var processTableDef = function(value){
 			}
 			//count Static columns
 			if ((colDat.length>2 && colDat[2]=="STATIC")){
-				staticCount++;
+				staticList.push(i);
 			}
 			//add explicit keys to list
 			if($.inArray(colDat[0],keys) >= 0){
@@ -91,7 +94,7 @@ var processTableDef = function(value){
 		
 		}else{
 		
-			var primaryKey = keyList[0];
+			primaryKey = keyList[0];
 			keyList.shift();
 			$('#parameters').append("<p>Primary: "+primaryKey+" Clustering: "+keyList.toString()+"<\p>");
 		}
@@ -124,23 +127,48 @@ var calculateSize = function(){
 Number of rows * ( Number of Columns - Partition Keys - Static Columns ) + Static Columns = Number of Values
 
 
-Sum of the size of the Keys + Sum of the size of the static columns + Number of rows * ( Sum of the size of the rows + Sum of the size of the Clustering Columns) +  8 * Number of Values = Size of table
+Sum of the size of the Keys + Sum of the size of the static columns + Number of rows * 
+	( Sum of the size of the rows + Sum of the size of the Clustering Columns) +  8 * Number of Values = Size of table
 				
 	*/
 	$('#countResults p').remove();
 
 	if ($("#rowCount").val() != ""){
-		rowCount = $("#rowCount").val();
+		rowCount = parseInt($("#rowCount").val());
 	}else{
 		rowCount = 0;
 	}
 	
+	var staticCount = staticList.length;
+	
 	var nv = rowCount*(columnLength - compLength - staticCount ) + staticCount;
 	$('#countResults').append("<p>Number of Values: "+(nv)+"</p>");
+	
+	var clusterKeySize = 0;
+	var rowsSize = 0;
+	var staticSize = 0
+	var i=0;
+	while (i < columnLength){
+		
+		rowsSize = rowsSize + parseInt($('#columnSize_'+i).val());
+		
+		if (i == primaryKey){
+			primaryKeySize = parseInt($('#columnSize_'+i).val());
+		}
+		
+		if ($.inArray(i, keyList)){
+			clusterKeySize = clusterKeySize + parseInt($('#columnSize_'+i).val());
+		}
+		
+		if ($.inArray(i, staticCount)){
+			staticSize = staticSize + parseInt($('#columnSize_'+i).val());
+		}
+		i = i+1;
+		
+	}
 
-	$('#countResults').append("<p>Size of table: "+(nv)+"</p>");
-	
-	
+	$('#countResults').append("<p>Size of table: " + Math.floor(((clusterKeySize + primaryKeySize) + staticSize + rowCount * (rowsSize + clusterKeySize) + 8*nv)/1048576)+" mb</p>");
+
 
 }
 		
