@@ -7,4 +7,4 @@ python -m SimpleHTTPServer
 
 or this (on python 3.x)
 
-python -m simplehttpserver
+python -m http.server
