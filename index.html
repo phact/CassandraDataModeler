@@ -568,12 +568,19 @@
 																				<form id="FORM_428">
 																				<div>
 																					
-																					<textarea id="tableDef" style="width:600px; height:200px">CREATE TABLE puppies 
-( pupIdentificationCode uuid ,
-size text  , 
-ownerName text  ,  
-short_hair boolean,
-PRIMARY KEY (pupIdentificationCode, ownerName, short_hair )
+																					<textarea id="tableDef" style="width:600px; height:200px">CREATE TABLE reviews_by_day
+(
+day int,
+productid text,
+userid text, 
+reviewid uuid,
+profilename text, 
+helpfulness text,
+score text, 
+summary text, 
+review text, 
+time timestamp,
+PRIMARY KEY (reviewid, userid, productid, time)
 )</textarea>
 																					
 																					
@@ -581,9 +588,13 @@ PRIMARY KEY (pupIdentificationCode, ownerName, short_hair )
 																				<br>
 																				<div>
 <h3 id='valid'></h3>
+
+<div id="trifthStorage"></div>
 <div id="parameters"></div>
+<div style="display:inline">
 <div id="countResults"></div>
-																				</div>
+<div>
+																			</div>
 																				<br>
 																				<div>
 																					
@@ -623,4 +634,5 @@ PRIMARY KEY (pupIdentificationCode, ownerName, short_hair )
 	</div>
 	
 <script type="text/javascript" src="js/sizer.js"></script>
+<script type="text/javascript" src="js/storageEngineRepresentation.js"></script>
 </body>

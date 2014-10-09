@@ -4,6 +4,9 @@ var compKeyList = [];
 var staticList = [];
 var clusterKeyList = [];
 
+var keys = [];
+var columns = [];
+
 //instantiate counts (global)
 var compLength = 0;
 var columnLength = 0;
@@ -31,12 +34,12 @@ var processTableDef = function(value){
 		$('#parameters').append("<p>Number of Rows:<\p>"+"<input id='rowCount'></input>");
 		
 		var i=0;
-		var columns =value.match(cqlColumnsRegex);
+		columns =value.match(cqlColumnsRegex);
 		columnLength = columns.length;
 
 		
 		//identify explicit primary keys
-		var keys = value.match(cqlPrimaryKeys);
+		keys = value.match(cqlPrimaryKeys);
 		if (keys !== null){
 			keys = keys.toString();
 			keys = keys.replace("PRIMARY KEY","").replace(/\(+/ig,"").replace(/\)+/gi,"").trim().split(",");
@@ -57,6 +60,7 @@ var processTableDef = function(value){
 		
 		while (i<columnLength){
 			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(/\s+/);
+			columns[i] = colDat[0];
 			colString = colDat[0]+" of type "+colDat[1];
 			$('#parameters').append("<p>"+colString+"<\p>"+"<input id='columnSize_"+ i +"'></input>");
 			
@@ -119,6 +123,9 @@ var processTableDef = function(value){
 	if (compKeys != null){
 		compLength = compKeys.length;
 	}
+	
+	//draw Storage Engine
+	drawStorageEngine();
 }
 
 
