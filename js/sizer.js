@@ -2,6 +2,7 @@
 var keyList = [];
 var compKeyList = [];
 var staticList = [];
+var clusterKeyList = [];
 
 //instantiate counts (global)
 var compLength = 0;
@@ -80,23 +81,25 @@ var processTableDef = function(value){
 		}
 		
 		//key split and print
+		clusterKeyList = $.extend(true, [], keyList);
+		
 		if (compKeyList.length > 0){
 			var i=0;
-			var keyLength = keyList.length;
+			var keyLength = clusterKeyList.length;
 			while (i< keyLength){
 				var shifted = keyList.shift();
 				if ($.inArray(shifted, compKeyList) < 0){
-					keyList.push(shifted);
+					clusterKeyList.push(shifted);
 				}
 				i=i+1;
 			}
-			$('#parameters').append("<p>Compound Primary: "+compKeyList+" Clustering: "+keyList.toString()+"<\p>");	
+			$('#parameters').append("<p>Compound Primary: "+compKeyList+" Clustering: "+clusterKeyList.toString()+"<\p>");	
 		
 		}else{
 		
-			primaryKey = keyList[0];
-			keyList.shift();
-			$('#parameters').append("<p>Primary: "+primaryKey+" Clustering: "+keyList.toString()+"<\p>");
+			primaryKey = clusterKeyList[0];
+			clusterKeyList.shift();
+			$('#parameters').append("<p>Primary: "+primaryKey+" Clustering: "+clusterKeyList.toString()+"<\p>");
 		}
 		
 	}
@@ -140,8 +143,9 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 	}
 	
 	var staticCount = staticList.length;
+	var keysCount = keyList.length
 	
-	var nv = rowCount*(columnLength - compLength - staticCount ) + staticCount;
+	var nv = rowCount*(columnLength - keysCount - staticCount ) + staticCount;
 	$('#countResults').append("<p>Number of Values: "+(nv)+"</p>");
 	
 	var clusterKeySize = 0;
@@ -156,7 +160,7 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 			primaryKeySize = parseInt($('#columnSize_'+i).val());
 		}
 		
-		if ($.inArray(i, keyList)){
+		if ($.inArray(i, clusterKeyList)){
 			clusterKeySize = clusterKeySize + parseInt($('#columnSize_'+i).val());
 		}
 		
