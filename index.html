@@ -570,17 +570,17 @@
 																					
 																					<textarea id="tableDef" style="width:600px; height:200px">CREATE TABLE reviews_by_day
 (
-reviewid uuid,
+userid text,
 day int,
-productid text,
-userid text, 
+productid text, 
+reviewid uuid,
 profilename text, 
 helpfulness text,
 score text, 
 summary text, 
 review text, 
 time timestamp,
-PRIMARY KEY (reviewid, userid, productid, time)
+PRIMARY KEY (userid, productid, time, reviewid)
 )</textarea>
 																					
 																					
