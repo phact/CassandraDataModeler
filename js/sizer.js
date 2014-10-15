@@ -17,7 +17,7 @@ var processTableDef = function(value){
 //here's the regex defs
 	var cqlCreateTableRegex  = /^CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig;
 	var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
-	var cqlCompoundPrimaryKeys = /\(\(\s*\S+\s+\S+\)/igm;
+	var cqlCompoundPrimaryKeys = /\( *\( *\S+ *(, *[^\)]+ *)+\)/igm;
 	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\s*$/igm;
 	
 	
@@ -91,7 +91,7 @@ var processTableDef = function(value){
 			var i=0;
 			var keyLength = clusterKeyList.length;
 			while (i< keyLength){
-				var shifted = keyList.shift();
+				var shifted = clusterKeyList.shift();
 				if ($.inArray(shifted, compKeyList) < 0){
 					clusterKeyList.push(shifted);
 				}

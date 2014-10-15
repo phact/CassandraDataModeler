@@ -32,25 +32,53 @@ var drawStorageEngine = function(){
 	var columnsArray = []
 	
 
-	var myObject = {};
-	for (j=1+clusterKeyList.length;j<columns.length;j++){
+	var columnObject = {};
+	
+	//remove the keys from keylessColumns -- a deep copy of columns
+	keyList.sort(function(a, b){return b-a})
+	
+	keylessColumns = columns.slice();
+	for (i=0;i<keyList.length;i++){
+		keylessColumns.splice(keyList[i],1)
+	}
+	
+	
+	//loop over keys to generate columns.
+	for (j=1;j<keylessColumns.length;j++){
 	
 		colName = "<"+columns[clusterKeyList[0]]+">";
 		for (i=1; i < clusterKeyList.length; i++){
 			colName = colName+":"+"<"+columns[clusterKeyList[i]]+">";
 		}
-		var myKey = colName+":"+columns[j];
-		var myValue = "<"+""+columns[j]+">";
-		myObject[myKey]= myValue;
+		var myKey = colName+":"+keylessColumns[j];
+		var myValue = "<"+""+keylessColumns[j]+">";
+		columnObject[myKey]= myValue;
 	}
 
-	columnsArray.push(myObject);
+	columnsArray.push(columnObject);
 	
-	jdata = [
-		{
-		"RowKey": keys[primaryKey],
-		" ":columnsArray
-		}]
+	rowObject = {}
+	
+	if (compKeyList.length ==0){
+		jdata = [
+			{
+				"RowKey": keys[primaryKey],
+				" ":columnsArray
+			}]
+	}else{
+		jdata = []
+		
+		var rowKey = "<"+columns[compKeyList[0]]+">";
+		for (i=1;i<compKeyList.length;i++){
+			rowKey = rowKey +":"+ "<"+columns[compKeyList[i]]+">";
+		}
+		for (i=0;i<compKeyList.length;i++){
+			jdata[i]={
+				"RowKey": rowKey,
+				" ":columnsArray
+			};
+		}
+	}
 	
 	d3.select("#trifthStorage table").remove();
 	d3.select("#trifthStorage").selectAll("table")
