@@ -244,7 +244,7 @@ th {
     width: 15px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/update.png) no-repeat scroll 0px -1px / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/update.png) no-repeat scroll 0px -1px / auto padding-box border-box;
     border: 0px none rgb(208, 155, 0);
     font: normal normal normal 12px/normal Arial, Verdana, sans-serif;
     outline: rgb(208, 155, 0) none 0px;
@@ -275,7 +275,7 @@ th {
     width: 16px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/closeicon.png) no-repeat scroll 50% 50% / 8px 8px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/closeicon.png) no-repeat scroll 50% 50% / 8px 8px padding-box border-box;
     border: 0px none rgb(208, 155, 0);
     font: normal normal normal 12px/normal Arial, Verdana, sans-serif;
     outline: rgb(208, 155, 0) none 0px;
@@ -427,7 +427,7 @@ th {
     width: 8px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/gray-arrow-down.png) no-repeat scroll 0px 50% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/gray-arrow-down.png) no-repeat scroll 0px 50% / auto padding-box border-box;
     border: 0px none rgb(203, 203, 203);
     font: normal normal normal 11px/normal Arial, Verdana, sans-serif;
     margin: 0px 0px 0px 6px;
@@ -626,7 +626,7 @@ th {
     width: 192.5px;
     perspective-origin: 96.25px 11px;
     transform-origin: 96.25px 11px;
-    background: rgba(0, 0, 0, 0) url(/images/opsc-logo.png) no-repeat scroll 0% 0% / 95px 22px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/opsc-logo.png) no-repeat scroll 0% 0% / 95px 22px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 12px/normal Arial, Verdana, sans-serif;
     margin: 9px 20px;
@@ -770,7 +770,7 @@ th {
     width: 100px;
     perspective-origin: 50px 8.5px;
     transform-origin: 50px 8.5px;
-    background: rgba(0, 0, 0, 0) url(/images/cluster_menu_overview_icon.png) no-repeat scroll 0px 50% / 16px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/cluster_menu_overview_icon.png) no-repeat scroll 0px 50% / 16px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 11px/normal Arial, Verdana, sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -792,7 +792,7 @@ th {
     width: 12px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/tabClose.png) no-repeat scroll 100% 0% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/tabClose.png) no-repeat scroll 100% 0% / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 11px/normal Arial, Verdana, sans-serif;
     margin: 0px 0px 0px 11px;
@@ -872,7 +872,7 @@ th {
     width: 100px;
     perspective-origin: 50px 8.5px;
     transform-origin: 50px 8.5px;
-    background: rgba(0, 0, 0, 0) url(/images/cluster_menu_icon.png) no-repeat scroll 0px 50% / 16px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/cluster_menu_icon.png) no-repeat scroll 0px 50% / 16px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 11px/normal Arial, Verdana, sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -1203,7 +1203,7 @@ th {
     width: 50px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/nav_icon_arrow_left.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/nav_icon_arrow_left.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 13px/normal Arial, Verdana, sans-serif;
     list-style: none outside none;
@@ -1505,7 +1505,7 @@ th {
     z-index: 0;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/ui-icons_222222_256x240_white.png) repeat scroll 0px -16px / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/ui-icons_222222_256x240_white.png) repeat scroll 0px -16px / auto padding-box border-box;
     border: 0px none rgb(220, 116, 13);
     border-spacing: 2px 2px;
     font: normal normal normal 11px/normal Arial, Verdana, sans-serif;
@@ -1664,7 +1664,7 @@ th {
     width: 27px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/resize-dragger.png) no-repeat scroll 0% 0% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/resize-dragger.png) no-repeat scroll 0% 0% / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 12px/normal Arial, Verdana, sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -2180,7 +2180,7 @@ th {
     width: 16px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/metric-dropdown-arrow.png) repeat scroll 0% 0% / 16px 14px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/metric-dropdown-arrow.png) repeat scroll 0% 0% / 16px 14px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 13px/normal Arial, Verdana, sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -2216,7 +2216,7 @@ th {
     width: 18px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/zoom-icon.png) repeat scroll 0% 0% / 18px 20px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/zoom-icon.png) repeat scroll 0% 0% / 18px 20px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 13px/normal Arial, Verdana, sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -2767,7 +2767,7 @@ th {
     width: 50px;
     perspective-origin: 25px 25px;
     transform-origin: 25px 25px;
-    background: rgba(0, 0, 0, 0) url(/images/nav_icon_dashboard.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/nav_icon_dashboard.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 13px/normal Arial, Verdana, sans-serif;
     list-style: none outside none;
@@ -2836,7 +2836,7 @@ th {
     width: 50px;
     perspective-origin: 25px 25px;
     transform-origin: 25px 25px;
-    background: rgba(0, 0, 0, 0) url(/images/nav_icon_nodes.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/nav_icon_nodes.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 13px/normal Arial, Verdana, sans-serif;
     list-style: none outside none;
@@ -2856,7 +2856,7 @@ th {
     width: 50px;
     perspective-origin: 25px 25px;
     transform-origin: 25px 25px;
-    background: rgba(0, 0, 0, 0) url(/images/nav_icon_activities.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/nav_icon_activities.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 13px/normal Arial, Verdana, sans-serif;
     list-style: none outside none;
@@ -2905,7 +2905,7 @@ th {
     width: 50px;
     perspective-origin: 25px 25px;
     transform-origin: 25px 25px;
-    background: rgba(0, 0, 0, 0) url(/images/nav_icon_data.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/nav_icon_data.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 13px/normal Arial, Verdana, sans-serif;
     list-style: none outside none;
@@ -2925,7 +2925,7 @@ th {
     width: 50px;
     perspective-origin: 25px 25px;
     transform-origin: 25px 25px;
-    background: rgba(0, 0, 0, 0) url(/images/nav_icon_services.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/nav_icon_services.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 13px/normal Arial, Verdana, sans-serif;
     list-style: none outside none;
@@ -2945,7 +2945,7 @@ th {
     width: 50px;
     perspective-origin: 25px 25px;
     transform-origin: 25px 25px;
-    background: rgba(0, 0, 0, 0) url(/images/nav_icon_arrow_left.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/nav_icon_arrow_left.png) no-repeat scroll 50% 50% / 20px 19px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 13px/normal Arial, Verdana, sans-serif;
     list-style: none outside none;
@@ -3115,7 +3115,7 @@ th {
     width: 18px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/warning-icon-sm.png) repeat scroll 0% 0% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/warning-icon-sm.png) repeat scroll 0% 0% / auto padding-box border-box;
     border: 0px none rgb(204, 204, 204);
     font: normal normal normal 12px/24px Arial, Verdana, sans-serif;
     outline: rgb(204, 204, 204) none 0px;
@@ -3185,7 +3185,7 @@ th {
     width: 15px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/update.png) no-repeat scroll 0px -1px / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/update.png) no-repeat scroll 0px -1px / auto padding-box border-box;
     border: 0px none rgb(208, 155, 0);
     font: normal normal normal 12px/24px Arial, Verdana, sans-serif;
     outline: rgb(208, 155, 0) none 0px;
@@ -3215,7 +3215,7 @@ th {
     width: 16px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/closeicon.png) no-repeat scroll 50% 50% / 8px 8px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/closeicon.png) no-repeat scroll 50% 50% / 8px 8px padding-box border-box;
     border: 0px none rgb(208, 155, 0);
     font: normal normal normal 12px/24px Arial, Verdana, sans-serif;
     outline: rgb(208, 155, 0) none 0px;
@@ -3364,7 +3364,7 @@ th {
     width: 8px;
     perspective-origin: 4px 4px;
     transform-origin: 4px 4px;
-    background: rgba(0, 0, 0, 0) url(/images/gray-arrow-down.png) no-repeat scroll 0px 50% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/gray-arrow-down.png) no-repeat scroll 0px 50% / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 12px/normal Arial, Verdana, sans-serif;
     margin: 0px 0px 0px 6px;
@@ -3784,7 +3784,7 @@ th {
     width: 23px;
     perspective-origin: 11.5px 12px;
     transform-origin: 11.5px 12px;
-    background: rgba(0, 0, 0, 0) url(/images/preset-dropdown-arrow.png) no-repeat scroll 50% 50% / 10px 5px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/preset-dropdown-arrow.png) no-repeat scroll 50% 50% / 10px 5px padding-box border-box;
     border: 0px none rgb(50, 50, 50);
     font: normal normal normal 11px/normal Arial, Verdana, sans-serif;
     outline: rgb(50, 50, 50) none 0px;
@@ -3928,7 +3928,7 @@ th {
     width: 8px;
     perspective-origin: 4px 11px;
     transform-origin: 4px 11px;
-    background: rgba(0, 0, 0, 0) url(/images/gray-arrow-down.png) no-repeat scroll 0px 50% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/gray-arrow-down.png) no-repeat scroll 0px 50% / auto padding-box border-box;
     border: 0px none rgb(17, 17, 17);
     font: normal normal normal 12px/normal Arial, Verdana, sans-serif;
     margin: 0px 0px 0px 6px;
@@ -4622,7 +4622,7 @@ th {
     width: 16px;
     perspective-origin: 8px 8px;
     transform-origin: 8px 8px;
-    background: rgba(0, 0, 0, 0) url(/images/closeicon.png) no-repeat scroll 50% 50% / 8px 8px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/closeicon.png) no-repeat scroll 50% 50% / 8px 8px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 12px/normal Arial, Verdana, sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -4916,7 +4916,7 @@ th {
     width: 69px;
     perspective-origin: 34.5px 15px;
     transform-origin: 34.5px 15px;
-    background: rgba(0, 0, 0, 0) url(/images/status_normal.png) no-repeat scroll 50% 50% / 20px 20px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/status_normal.png) no-repeat scroll 50% 50% / 20px 20px padding-box border-box;
     border: 0px none rgb(153, 153, 153);
     font: normal normal normal 11px/normal Arial, Verdana, sans-serif;
     outline: rgb(153, 153, 153) none 0px;
@@ -4955,7 +4955,7 @@ th {
     width: 69px;
     perspective-origin: 34.5px 15px;
     transform-origin: 34.5px 15px;
-    background: rgba(0, 0, 0, 0) url(/images/status_medium.png) no-repeat scroll 50% 50% / 20px 20px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/status_medium.png) no-repeat scroll 50% 50% / 20px 20px padding-box border-box;
     border: 0px none rgb(153, 153, 153);
     font: normal normal normal 11px/normal Arial, Verdana, sans-serif;
     outline: rgb(153, 153, 153) none 0px;
@@ -4994,7 +4994,7 @@ th {
     width: 69px;
     perspective-origin: 34.5px 15px;
     transform-origin: 34.5px 15px;
-    background: rgba(0, 0, 0, 0) url(/images/status_high.png) no-repeat scroll 50% 50% / 20px 20px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/status_high.png) no-repeat scroll 50% 50% / 20px 20px padding-box border-box;
     border: 0px none rgb(153, 153, 153);
     font: normal normal normal 11px/normal Arial, Verdana, sans-serif;
     outline: rgb(153, 153, 153) none 0px;
@@ -5023,7 +5023,7 @@ th {
     width: 69px;
     perspective-origin: 34.5px 15px;
     transform-origin: 34.5px 15px;
-    background: rgba(0, 0, 0, 0) url(/images/status_down.png) no-repeat scroll 50% 50% / 20px 20px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/status_down.png) no-repeat scroll 50% 50% / 20px 20px padding-box border-box;
     border: 0px none rgb(153, 153, 153);
     font: normal normal normal 11px/normal Arial, Verdana, sans-serif;
     outline: rgb(153, 153, 153) none 0px;
@@ -5252,7 +5252,7 @@ th {
     width: 16px;
     perspective-origin: 8px 7px;
     transform-origin: 8px 7px;
-    background: rgba(0, 0, 0, 0) url(/images/metric-dropdown-arrow.png) repeat scroll 0% 0% / 16px 14px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/metric-dropdown-arrow.png) repeat scroll 0% 0% / 16px 14px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 12px/normal Arial, Verdana, sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -5288,7 +5288,7 @@ th {
     width: 18px;
     perspective-origin: 9px 10px;
     transform-origin: 9px 10px;
-    background: rgba(0, 0, 0, 0) url(/images/zoom-icon.png) repeat scroll 0% 0% / 18px 20px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/zoom-icon.png) repeat scroll 0% 0% / 18px 20px padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 12px/normal Arial, Verdana, sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -5916,7 +5916,7 @@ th {
     width: 11px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/legend-down.png) no-repeat scroll 2px 2px / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/legend-down.png) no-repeat scroll 2px 2px / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 12px/20px Arial, Verdana, sans-serif;
     margin: 7px 6px 0px 0px;
@@ -6861,7 +6861,7 @@ th {
     width: 4px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 12px/normal sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -7011,7 +7011,7 @@ th {
     z-index: 0;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 12px/normal sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -7168,7 +7168,7 @@ th {
     width: 15px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/closeicon.png) no-repeat scroll 100% 50% / 8px 8px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/closeicon.png) no-repeat scroll 100% 50% / 8px 8px padding-box border-box;
     border: 0px none rgb(243, 250, 155);
     font: normal normal bold 12px/normal Arial, Verdana, sans-serif;
     margin: 10px 8px 0px 0px;
@@ -7766,7 +7766,7 @@ th {
     width: 15px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/closeicon.png) no-repeat scroll 100% 50% / 8px 8px padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/closeicon.png) no-repeat scroll 100% 50% / 8px 8px padding-box border-box;
     border: 0px none rgb(243, 250, 155);
     font: normal normal bold 12px/normal Arial, Verdana, sans-serif;
     margin: 10px 8px 0px 0px;
@@ -7965,7 +7965,7 @@ th {
     width: 8px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/gray-arrow-down.png) no-repeat scroll 0px 50% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/gray-arrow-down.png) no-repeat scroll 0px 50% / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 12px/normal Arial, Verdana, sans-serif;
     margin: 0px 0px 0px 6px;
@@ -8115,7 +8115,7 @@ th {
     width: 8px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/gray-arrow-down.png) no-repeat scroll 0px 50% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/gray-arrow-down.png) no-repeat scroll 0px 50% / auto padding-box border-box;
     border: 0px none rgb(17, 17, 17);
     font: normal normal normal 12px/normal Arial, Verdana, sans-serif;
     margin: 0px 0px 0px 6px;
@@ -8547,7 +8547,7 @@ th {
     width: 8px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/gray-arrow-down.png) no-repeat scroll -28px 50% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/gray-arrow-down.png) no-repeat scroll -28px 50% / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 12px/normal Arial, Verdana, sans-serif;
     margin: 0px 0px 0px 6px;
@@ -8651,7 +8651,7 @@ th {
     width: 8px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/gray-arrow-down.png) no-repeat scroll 0px 50% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/gray-arrow-down.png) no-repeat scroll 0px 50% / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 12px/normal Arial, Verdana, sans-serif;
     margin: 0px 0px 0px 6px;
@@ -8716,7 +8716,7 @@ th {
     width: 4px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 12px/normal sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -8947,7 +8947,7 @@ th {
     width: 4px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 11px/normal sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -8996,7 +8996,7 @@ th {
     width: 4px;
     perspective-origin: 50% 50%;
     transform-origin: 50% 50%;
-    background: rgba(0, 0, 0, 0) url(/images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 11px/normal sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -9227,7 +9227,7 @@ th {
     width: 4px;
     perspective-origin: 2px 4px;
     transform-origin: 2px 4px;
-    background: rgba(0, 0, 0, 0) url(/images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 11px/normal sans-serif;
     outline: rgb(255, 255, 255) none 0px;
@@ -9245,7 +9245,7 @@ th {
     width: 4px;
     perspective-origin: 2px 4px;
     transform-origin: 2px 4px;
-    background: rgba(0, 0, 0, 0) url(/images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
+    background: rgba(0, 0, 0, 0) url(images/white-arrow-right.png) no-repeat scroll 0% 0% / auto padding-box border-box;
     border: 0px none rgb(255, 255, 255);
     font: normal normal normal 11px/normal sans-serif;
     outline: rgb(255, 255, 255) none 0px;
