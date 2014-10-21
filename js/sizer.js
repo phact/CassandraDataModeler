@@ -178,7 +178,7 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 		
 	}
 
-	$('#countResults').append("<p>Size of table: " + Math.floor(((clusterKeySize + primaryKeySize) + staticSize + rowCount * (rowsSize + clusterKeySize) + 8*nv)/1048576)+" mb</p>");
+	$('#countResults').append("<p>Size of partition: " + Math.floor(((clusterKeySize + primaryKeySize) + staticSize + rowCount * (rowsSize + clusterKeySize) + 8*nv)/1048576)+" mb</p>");
 
 
 }
