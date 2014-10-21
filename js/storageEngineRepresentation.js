@@ -44,7 +44,7 @@ var drawStorageEngine = function(){
 	
 	
 	//loop over keys to generate columns.
-	for (j=1;j<keylessColumns.length;j++){
+	for (j=0;j<keylessColumns.length;j++){
 	
 		colName = "<"+columns[clusterKeyList[0]]+">";
 		for (i=1; i < clusterKeyList.length; i++){
