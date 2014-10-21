@@ -157,28 +157,31 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 	
 	var clusterKeySize = 0;
 	var rowsSize = 0;
+	var rowsCount = 0;
 	var staticSize = 0
 	var i=0;
 	while (i < columnLength){
-		
-		rowsSize = rowsSize + parseInt($('#columnSize_'+i).val());
 		
 		if (i == primaryKey){
 			primaryKeySize = parseInt($('#columnSize_'+i).val());
 		}
 		
-		if ($.inArray(i, clusterKeyList)){
+		else if ($.inArray(i, clusterKeyList) >=0 ){
 			clusterKeySize = clusterKeySize + parseInt($('#columnSize_'+i).val());
 		}
 		
-		if ($.inArray(i, staticCount)){
+		else if ($.inArray(i, staticList) >= 0 ){
 			staticSize = staticSize + parseInt($('#columnSize_'+i).val());
+		}
+		else{
+			rowsSize = rowsSize + parseInt($('#columnSize_'+i).val());
+			rowsCount = rowsCount + 1;
 		}
 		i = i+1;
 		
 	}
 
-	$('#countResults').append("<p>Size of partition: " + Math.floor(((clusterKeySize + primaryKeySize) + staticSize + rowCount * (rowsSize + clusterKeySize) + 8*nv)/1048576)+" mb</p>");
+	$('#countResults').append("<p>Size of partition: " + Math.floor((primaryKeySize + staticSize + rowCount * (rowsSize + rowsCount * clusterKeySize) + 8*nv)/1048576)+" mb</p>");
 
 
 }
