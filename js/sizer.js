@@ -127,6 +127,9 @@ var processTableDef = function(value){
 	
 	//draw Storage Engine
 	drawStorageEngine();
+	
+	//setup yaml download
+	downloadYaml("autoGen.yaml", value);
 }
 
 
@@ -184,8 +187,112 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 
 	$('#countResults').append("<p>Size of partition: " + Math.floor((primaryKeySize + staticSize + rowCount * (rowsSize + rowsCount * clusterKeySize) + 8*nv)/1048576)+" mb</p>");
 
-
 }
+
+function downloadYaml(filename, text) {
+  var before = "### DML ### THIS IS UNDER CONSTRUCTION!!!\n"+
+" \n"+
+"# Keyspace Name\n"+
+"keyspace: stressPlaceCast\n"+
+" \n"+
+"# The CQL for creating a keyspace (optional if it already exists)\n"+
+"keyspace_definition: |\n"+
+"  CREATE KEYSPACE stressPlaceCast WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};\n"+
+" \n"+
+"# Table name\n"+
+"table: profiles\n"+
+" \n"+
+"# The CQL for creating a table you wish to stress (optional if it already exists)\n"+
+"table_definition: \n";
+
+  var after = "\n"+
+"### Column Distribution Specifications ###\n"+
+" \n"+
+"columnspec:\n"+
+"  - name: profile_key\n"+
+"    size: gaussian(5..100)\n"+
+"    population: uniform(1..10M)\n"+
+" \n"+
+"  - name: cc\n"+
+"    size: uniform(4..8)\n"+
+"    population: uniform(1..100B)\n"+
+"    cluster: fixed(1)\n"+
+" \n"+
+"  - name: fwd\n"+
+"    size: uniform(4..8)\n"+
+"    population: uniform(1..100B) \n"+
+"    cluster: fixed(1)\n"+
+" \n"+
+"  - name: g\n"+
+"    size: uniform(4..8)\n"+
+"    population: uniform(1..100B) \n"+
+"    cluster: fixed(1)\n"+
+" \n"+
+"  - name: hist\n"+
+"    size: uniform(4..8)\n"+
+"    population: uniform(1..100B) \n"+
+"    cluster: fixed(1)\n"+
+" \n"+
+"  - name: impr\n"+
+"    size: uniform(4..8)\n"+
+"    population: uniform(1..100B) \n"+
+"    cluster: fixed(1)\n"+
+"\n"+
+"  - name: keys\n"+
+"    size: uniform(4..8)\n"+
+"    population: uniform(1..100B) \n"+
+"    cluster: fixed(1)\n"+
+"\n"+
+"  - name: tgt\n"+
+"    size: uniform(4..8)\n"+
+"    population: uniform(1..100B) \n"+
+"    cluster: fixed(1)\n"+
+"\n"+
+"  - name: trk\n"+
+"    size: uniform(4..8)\n"+
+"    population: uniform(1..100B) \n"+
+"    cluster: fixed(1)\n"+
+"\n"+
+"  - name: ts\n"+
+"    size: uniform(4..8)\n"+
+"    population: uniform(1..100B) \n"+
+"    cluster: fixed(1)\n"+
+"\n"+
+"  - name: v\n"+
+"    size: uniform(4..8)\n"+
+"    population: uniform(1..100B) \n"+
+"    cluster: fixed(1)\n"+
+"\n"+
+"  - name: yob\n"+
+"    size: uniform(4..8)\n"+
+"    population: uniform(1..100B) \n"+
+"    cluster: fixed(1)\n"+
+"\n"+
+"   \n"+
+"### Batch Ratio Distribution Specifications ###\n"+
+" \n"+
+"insert:\n"+
+"  partitions: fixed(1)            # Our partition key is the domain so only insert one per batch\n"+
+" \n"+
+"  pervisit:  fixed(1)/1000        # We have 1000 posts per domain so 1/1000 will allow 1 post per batch  \n"+
+" \n"+
+"  perbatch:  fixed(1)/1           # With one partition per batch we can set this to 100% \n"+
+" \n"+
+"  batchtype: UNLOGGED             # Unlogged batches\n"+
+" \n"+
+" \n"+
+"#\n"+
+"# A list of queries you wish to run against the schema\n"+
+"#\n"+
+"queries:\n"+
+"   singlepost:  select * from profiles where profile_key = ? LIMIT 1 \n";
+
+ 
+  var pom = $("#generateYaml")[0];
+  pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(before + text + after));
+  pom.setAttribute('download', filename);
+}
+
 		
 
 $("#tableDef").bind('input propertychange', function() {
