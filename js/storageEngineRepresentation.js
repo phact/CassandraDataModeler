@@ -2,7 +2,7 @@ var drawStorageEngine = function(){
 
 	jdataOld = [
 	    {
-	        "RowKey":"pupIdentificationCode",
+	        "PartitionKey":"pupIdentificationCode",
 	        " ":[
 	            {
 	                "name": "sarah",
@@ -18,7 +18,7 @@ var drawStorageEngine = function(){
 	
 	jdata = [
 	    {
-	        "RowKey":"<pupIdentificationCode>",
+	        "PartitionKey":"<pupIdentificationCode>",
 	        "Partition":[
 	            {
 	                "<ownerName>:<short_hair>:size": "<size>",
@@ -62,7 +62,7 @@ var drawStorageEngine = function(){
 	if (compKeyList.length ==0){
 		jdata = [
 			{
-				"RowKey": keys[primaryKey],
+				"PartitionKey": "<" + keys[primaryKey] + ">",
 				" ":columnsArray
 			}]
 	}else{
@@ -74,7 +74,7 @@ var drawStorageEngine = function(){
 		}
 		for (i=0;i<compKeyList.length;i++){
 			jdata[i]={
-				"RowKey": rowKey,
+				"PartitionKey": rowKey,
 				" ":columnsArray
 			};
 		}
