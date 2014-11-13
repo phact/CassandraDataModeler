@@ -1,7 +1,11 @@
 <html>
 <head>
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="jquery.js"></script>
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
+
 </head>
 
 <body>
@@ -549,7 +553,6 @@
 																	<div id="DIV_369">
 																		Input your table definition
 																	</div>
-																		<input type="button" tabindex="-1" id="INPUT_399"></span>
 																</div>
 															</div>
 															<div id="DIV_400">
@@ -583,11 +586,22 @@ PRIMARY KEY (userid, productid, time, reviewid)
 																				<br>
 																				<div>
 <h3 id='valid'></h3>
+<div data-role="tabs" id="tabs">
+  <div data-role="navbar">
+    <ul>
+      <li><a href="#thriftStorage" class="ui-btn-active" data-ajax="false">Storage Engine Visualization</a></li>
+      <li><a href="#parameters" data-ajax="false">Field Sizing</a></li>
+      <li><a href="#countResults" data-ajax="false">Diagnostics</a></li>
+    </ul>
+  </div>
+  <div id="thriftStorage" class="ui-body-d ui-content"></div>
+  <div id="parameters"></div>
+  <div style="display:inline">
+  <div id="countResults"></div>
 
-<div id="trifthStorage"></div>
-<div id="parameters"></div>
-<div style="display:inline">
-<div id="countResults"></div>
+</div>
+
+
 <div>
 																			</div>
 																				<br>

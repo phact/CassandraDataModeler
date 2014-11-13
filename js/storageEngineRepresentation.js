@@ -80,8 +80,8 @@ var drawStorageEngine = function(){
 		}
 	}
 	
-	d3.select("#trifthStorage table").remove();
-	d3.select("#trifthStorage").selectAll("table")
+	d3.select("#thriftStorage table").remove();
+	d3.select("#thriftStorage").selectAll("table")
 	    .data([jdata])
 	  .enter().append("table")
 	    .call(recurse);

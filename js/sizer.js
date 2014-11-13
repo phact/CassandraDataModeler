@@ -30,7 +30,8 @@ var processTableDef = function(value){
 		staticList = [];
 		
 		
-		$('#valid').html("Table Validated, please insert expected sizes in bytes");
+		$('#valid').html("Table Validated");
+		$('#parameters').append("Please insert expected sizes in bytes");
 		$('#parameters').append("<p>Number of Rows:<\p>"+"<input id='rowCount'></input>");
 		
 		var i=0;
