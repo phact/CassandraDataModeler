@@ -136,3 +136,5 @@ var drawStorageEngine = function(){
 
 
 }
+
+processTableDef($("#tableDef").val());

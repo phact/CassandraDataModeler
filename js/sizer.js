@@ -191,4 +191,3 @@ $("#tableDef").bind('input propertychange', function() {
 	processTableDef($("#tableDef").val());
 });
 
-processTableDef($("#tableDef").val());
