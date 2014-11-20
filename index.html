@@ -588,7 +588,6 @@ PRIMARY KEY (userid, productid, time, reviewid)
 <h3 id='valid'></h3>
 <div data-role="tabs" id="tabs">
   <div data-role="navbar">
-   <a href="" id="generateYaml">Generate Yaml</a>
    <ul>
       <li><a href="#thriftStorage" class="ui-btn-active" data-ajax="false">Storage Engine Visualization</a></li>
       <li><a href="#parameters" data-ajax="false">Field Sizing</a></li>
@@ -598,7 +597,9 @@ PRIMARY KEY (userid, productid, time, reviewid)
   <div id="thriftStorage" class="ui-body-d ui-content"></div>
   <div id="parameters"></div>
   <div style="display:inline">
-  <div id="countResults">Please complete Field Sizing</div>
+  <div id="countResults"><p>Please complete Field Sizing</p>
+   <a href="" style="font-size: 10px" class="ui-link ui-btn" id="generateYaml">Generate Cassandra Stress 2.1 Yaml</a>
+  </div>
 
 </div>
 

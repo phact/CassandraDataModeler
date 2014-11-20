@@ -145,7 +145,7 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 	( Sum of the size of the rows + Sum of the size of the Clustering Columns) +  8 * Number of Values = Size of table
 				
 	*/
-	$('#countResults p').remove();
+	$('#countResults').remove("p");
 
 	if ($("#rowCount").val() != ""){
 		rowCount = parseInt($("#rowCount").val());
@@ -157,8 +157,8 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 	var keysCount = keyList.length
 	
 	var nv = rowCount*(columnLength - keysCount - staticCount ) + staticCount;
-	$('#countResults').append("<p>Number of Values: "+(nv)+"</p>");
-	
+	$('#countResults p').remove();
+
 	var clusterKeySize = 0;
 	var rowsSize = 0;
 	var rowsCount = 0;
@@ -185,10 +185,34 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 		
 	}
 
-	$('#countResults').append("<p>Size of partition: " + Math.floor((primaryKeySize + staticSize + rowCount * (rowsSize + rowsCount * clusterKeySize) + 8*nv)/1048576)+" mb</p>");
+	var sizeOnDisk =  primaryKeySize + staticSize + rowCount * (rowsSize + rowsCount * clusterKeySize) + 8*nv
+	
+
+        //check for warning
+        if (nv>100000 || sizeOnDisk > 100*1048567){
+                $('#countResults').css("color", "red");
+                $('#countResults').append("<p>Warning, try to stay under 100mb and 100,000 values per partition!</p>");
+        }else{
+		$('#countResults').css("color","white");
+	}
+
+	//format bytes
+	if (sizeOnDisk > 1048567){
+		sizeOnDisk = ""+Math.floor(sizeOnDisk/1048567) + " mb";
+	}else if (sizeOnDisk > 1024){
+		sizeOnDisk = ""+Math.floor(sizeOnDisk/1024) + " kb";
+	}else{
+		sizeOnDisk = ""+sizeOnDisk+ " bytes";
+	}
+
+	//	write results
+	$('#countResults').append("<p>Number of Values: "+(nv)+"</p>");
+	$('#countResults').append("<p>Size of partition: " + sizeOnDisk +"</p>");
 
 }
 
+
+//Ugly....
 function downloadYaml(filename, text) {
   var before = "### DML ### THIS IS UNDER CONSTRUCTION!!!\n"+
 " \n"+
