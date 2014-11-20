@@ -63,7 +63,46 @@ var processTableDef = function(value){
 			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(/\s+/);
 			columns[i] = colDat[0];
 			colString = colDat[0]+" of type "+colDat[1];
+
+			//find primitives and assign default size
+			var defaultSize ="";
+			if (colDat[1] == "int" || colDat[1] == "integer"){
+				defaultSize = "4";
+			}
+			if (colDat[1] == "bigint"){
+				defaultSize = "8";
+			}
+			if (colDat[1] == "boolean"){
+				//because of Java word size
+				defaultSize = "4";
+			}
+			if (colDat[1] == "counter"){
+				defaultSize = "4";
+			}
+                        if (colDat[1] == "double"){
+                                defaultSize = "8";
+                        }
+                        if (colDat[1] == "float"){
+                                defaultSize = "4";
+                        }
+                        if (colDat[1] == "inet"){
+                                //per http://en.wikipedia.org/wiki/IPv6
+				defaultSize = "32";
+                        }
+                        if (colDat[1] == "timestamp"){
+                                defaultSize = "8";
+                        }
+                        if (colDat[1] == "uuid"){
+                                defaultSize = "32";
+                        }
+                        if (colDat[1] == "timeuuid"){
+                                defaultSize = "32";
+                        }
+			
+			//create input field
 			$('#parameters').append("<p>"+colString+"<\p>"+"<input id='columnSize_"+ i +"'></input>");
+			//set value when known
+			$('#columnSize_'+ i ).val(defaultSize);
 			
 			//inline primary key declaration
 			if ((colDat.length>2 && colDat[2]=="PRIMARY" && colDat[3]=="KEY")){
