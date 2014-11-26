@@ -168,7 +168,8 @@ var processTableDef = function(value){
 	drawStorageEngine();
 	
 	$("#countResults h3").remove();
-	
+	$("#countResults").append("<h3>Likely select queries for this data model:</h3>");	
+
 	tableName = value.match(/CREATE TABLE.+/)[0].split(" ")[2];
 	var query = "";
 	if (compKeyList.length == 0){
@@ -387,3 +388,9 @@ $("#tableDef").bind('input propertychange', function() {
 	processTableDef($("#tableDef").val());
 });
 
+
+<script>
+$(document).bind("mobileinit", function(){
+  $.mobile.touchOverflowEnabled = true;
+});
+</script>
