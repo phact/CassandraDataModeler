@@ -170,7 +170,7 @@ var processTableDef = function(value){
 	$("#countResults h3").remove();
 	$("#countResults").append("<h3>Likely select queries for this data model:</h3>");	
 
-	tableName = value.match(/CREATE TABLE.+/)[0].split(" ")[2];
+	tableName = value.match(/CREATE TABLE.+/i)[0].split(" ")[2];
 	var query = "";
 	if (compKeyList.length == 0){
 		query = "Select * from "+ tableName + " where "+ columns[primaryKey] + " = ?";
@@ -393,8 +393,6 @@ $("#tableDef").bind('input propertychange', function() {
 });
 
 
-<script>
 $(document).bind("mobileinit", function(){
   $.mobile.touchOverflowEnabled = true;
 });
-</script>
