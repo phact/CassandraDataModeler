@@ -296,7 +296,11 @@ function downloadYaml(filename, text) {
   var after = "\n"+
 "### Column Distribution Specifications ###\n"+
 " \n"+
-"columnspec:\n"+
+"columnspec:\n";
+
+  
+
+	var after = after +
 "  - name: profile_key\n"+
 "    size: gaussian(5..100)\n"+
 "    population: uniform(1..10M)\n"+
