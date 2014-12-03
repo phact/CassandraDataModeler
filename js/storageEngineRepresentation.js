@@ -42,15 +42,20 @@ var drawStorageEngine = function(){
 		keylessColumns.splice(keyList[i],1)
 	}
 	
-	
+	//clear vars
+	colName = "";
+	myKey = "";
+
 	//loop over keys to generate columns.
 	for (j=0;j<keylessColumns.length;j++){
-	
-		colName = "<"+columns[clusterKeyList[0]]+">";
-		for (i=1; i < clusterKeyList.length; i++){
-			colName = colName+":"+"<"+columns[clusterKeyList[i]]+">";
+		if (clusterKeyList.length>0){	
+			colName = "<"+columns[clusterKeyList[0]]+">";
+			for (i=1; i < clusterKeyList.length; i++){
+				colName = colName+":"+"<"+columns[clusterKeyList[i]]+">";
+			}
+			colName = colName+":";
 		}
-		var myKey = colName+":"+keylessColumns[j];
+		var myKey = colName+keylessColumns[j];
 		var myValue = "<"+""+keylessColumns[j]+">";
 		columnObject[myKey]= myValue;
 	}
