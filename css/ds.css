@@ -127,7 +127,7 @@ th {
     color: rgb(255, 255, 255);
     height: 848.5px;
     text-decoration: none solid rgb(255, 255, 255);
-    width: 1543px;
+    width: 100%;
     perspective-origin: 771.5px 424.25px;
     transform-origin: 771.5px 424.25px;
     border: 0px none rgb(255, 255, 255);
@@ -1031,7 +1031,7 @@ th {
 #DIV_88 {
     color: rgb(255, 255, 255);
     height: 809px;
-    left: 125px;
+    left: 0px;
     position: absolute;
     text-decoration: none solid rgb(255, 255, 255);
     top: 40px;
@@ -2956,7 +2956,6 @@ th {
 #DIV_362 {
     color: rgb(255, 255, 255);
     height: 809px;
-    left: 50px;
     position: absolute;
     text-decoration: none solid rgb(255, 255, 255);
     top: 0px;
