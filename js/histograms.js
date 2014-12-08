@@ -2,8 +2,8 @@ function insertHistogram(divID){
 
 	function addMiniHist(divID){
 		$("#"+divID+ " #svgDiv").remove();
-		var myDiv = $("#"+divID).append("<div class='histogram' id='svgDiv'></div>");
-		$("#"+divID+ " #svgDiv").append("<fieldset data-role='controlgroup' data-type='horizontal'>"+
+		var myDiv = $("#"+divID).append("<div class='histogram' id='svgDiv' style='display:inline'></div>");
+		$("#"+divID+ " #svgDiv").append("<fieldset data-role='controlgroup' data-type='horizontal' style='display:inline'>"+
 		//myDiv.append("<fieldset data-role='controlgroup' data-type='horizontal'>"+
 			"<legend>Distribution Type:</legend>"+
 			"<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2a' value='exp'>"+
@@ -98,7 +98,8 @@ function insertHistogram(divID){
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", height + margin.top + margin.bottom)
 			.append("g")
-			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+			.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+			.style("display", "inline");
 
 			var bar = svg.selectAll(".bar")
 			.data(data)
