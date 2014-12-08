@@ -23,7 +23,8 @@ var processTableDef = function(value){
 	
 	
 	$('#parameters input').remove();
-	$('#parameters p').remove();
+	$('#parameters p, h2, h3').remove();
+	$('#parameters div').remove();
 //	is the table definition valid?
 	if(cqlCreateTableRegex.test(value)){
 		keyList = [];
@@ -32,8 +33,8 @@ var processTableDef = function(value){
 		
 		
 		$('#valid').html("Table Validated");
-		$('#parameters').append("<p>Please insert expected sizes in bytes</p>");
-		$('#parameters').append("<p>Number of Rows:<\p>"+"<input id='rowCount'></input>");
+		$('#parameters').append("<h2>Please insert expected sizes in bytes</h2>");
+		$('#parameters').append("<h3>Number of Rows:</h3>"+"<input id='rowCount'></input>");
 		
 		var i=0;
 		columns =value.match(cqlColumnsRegex);
@@ -101,7 +102,7 @@ var processTableDef = function(value){
                         }
 			
 			//create input field
-			$('#parameters').append("<p>"+colString+"<\p>"+"<input id='columnSize_"+ i +"'></input>");
+			$('#parameters').append("<div id='columnSizeGroup_"+i+"'><h3>"+colString+"</h3><p>Expected size in bytes:</p>"+"<input id='columnSize_"+ i +"'></input></div>");
 			//set value when known
 			$('#columnSize_'+ i ).val(defaultSize);
 			
@@ -121,6 +122,8 @@ var processTableDef = function(value){
 			if ($.inArray(colDat[0],compKeys)>=0){
 				compKeyList.push(i);
 			}
+
+			insertHistogram('columnSizeGroup_'+ i);
 
 			i=i+1;
 		}
@@ -275,8 +278,8 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 	}
 
 	//	write results
-	$('#countResults').append("<p>Number of Values: "+(nv)+"</p>");
-	$('#countResults').append("<p>Size of partition: " + sizeOnDisk +"</p>");
+	$('#countResults').append("<p>Number of Cells in Partition: "+(nv)+"</p>");
+	$('#countResults').append("<p>Size of Partition: " + sizeOnDisk +"</p>");
 
 }
 
