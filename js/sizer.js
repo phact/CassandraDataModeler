@@ -34,7 +34,7 @@ var processTableDef = function(value){
 		
 		$('#valid').html("Table Validated");
 		$('#parameters').append("<h2>Please insert expected sizes in bytes</h2>");
-		$('#parameters').append("<h3>Number of Rows:</h3>"+"<input id='rowCount'></input>");
+		$('#parameters').append("<div style='width:200px'><h3>Number of Rows:</h3>"+"<input type='text' id='rowCount'></input></div>");
 		
 		var i=0;
 		columns =value.match(cqlColumnsRegex);
@@ -64,7 +64,7 @@ var processTableDef = function(value){
 		while (i<columnLength){
 			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(/\s+/);
 			columns[i] = colDat[0];
-			colString = colDat[0]+" of type "+colDat[1];
+			colString = colDat[0]+" of type "+colDat[1]+ ":";
 
 			//find primitives and assign default size
 			var defaultSize ="";
@@ -102,10 +102,12 @@ var processTableDef = function(value){
                         }
 			
 			//create input field
-			$('#parameters').append("<div id='columnSizeGroup_"+i+"'><h3>"+colString+"</h3><p>Expected size in bytes:</p>"+"<input id='columnSize_"+ i +"'></input></div>");
+			$('#parameters').append("<div id='columnSizeGroup_"+i+"'><h3>"+colString+"</h3>"+"<input placeholder='Expected size (bytes)' type='text' data-inline='true' style='width:200px' id='columnSize_"+ i +"'></input></div>");
 			//set value when known
 			$('#columnSize_'+ i ).val(defaultSize);
-			
+
+                        $('[type="text"]').textinput();			
+	
 			//inline primary key declaration
 			if ((colDat.length>2 && colDat[2]=="PRIMARY" && colDat[3]=="KEY")){
 				keyList.push(i);
@@ -201,7 +203,7 @@ var processTableDef = function(value){
 	}
 		
 	//setup yaml and download
-	downloadYaml("autoGen.yaml", value);
+	$("input[name*=columnSizeGroup_]").change(function() { downloadYaml("autoGen.yaml")} );
 }
 
 
@@ -285,8 +287,8 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 
 
 //Ugly....
-function downloadYaml(filename, text) {
-
+function downloadYaml(filename) {
+  var text = $("#tableDef").val();
   var before = "### DML ### THIS IS UNDER CONSTRUCTION!!!\n"+
 " \n"+
 "# Keyspace Name\n"+
@@ -308,10 +310,27 @@ function downloadYaml(filename, text) {
 "columnspec:\n";
 
   for (var i = 0;i < columnLength; i++){
-	after = after + "  - name: "+ columns[i]  +"\n"+
-"    size: gaussian(5..100)\n"+
-"    population: uniform(1..10M)\n"+
-" \n";
+	if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "uni"){
+		after = after + "  - name: "+ columns[i]  +"\n"+
+		"    size: uniform(5..100)\n"+
+		"    population: uniform(1..10M)\n"+
+		" \n";
+	}if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "exp"){
+                after = after + "  - name: "+ columns[i]  +"\n"+
+                "    size: exponential(5..100)\n"+
+                "    population: uniform(1..10M)\n"+
+                " \n";
+	}if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "ext"){
+                after = after + "  - name: "+ columns[i]  +"\n"+
+                "    size: extreme(5..100)\n"+
+                "    population: uniform(1..10M)\n"+
+                " \n";
+        }if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "norm"){
+                after = after + "  - name: "+ columns[i]  +"\n"+
+                "    size: gaussian(5..100)\n"+
+                "    population: uniform(1..10M)\n"+
+                " \n";
+        }
   }
 	var after = after +
 "\n"+

@@ -2,10 +2,10 @@ function insertHistogram(divID){
 
 	function addMiniHist(divID){
 		$("#"+divID+ " #svgDiv").remove();
-		var myDiv = $("#"+divID).append("<div class='histogram' id='svgDiv' style='display:inline'></div>");
+		var myDiv = $("#"+divID).append("<div class='histogram' id='svgDiv' style='display:inline; margin:40px'></div>");
 		$("#"+divID+ " #svgDiv").append("<fieldset data-role='controlgroup' data-type='horizontal' style='display:inline'>"+
 		//myDiv.append("<fieldset data-role='controlgroup' data-type='horizontal'>"+
-			"<legend>Distribution Type:</legend>"+
+			"<legend>Size Distribution:</legend>"+
 			"<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2a' value='exp'>"+
 			"<label for='"+ divID  +"-radio-choice-h-2a'>Exponential</label>"+
 			"<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2b' value='ext'>"+
