@@ -16,14 +16,14 @@ var primaryKey;
 var processTableDef = function(value){
 	
 //here's the regex defs
-	var cqlCreateTableRegex  = /^CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig;
+	var cqlCreateTableRegex  = /^CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig ;
 	var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
 	var cqlCompoundPrimaryKeys = /\( *\( *\w+ *(, *[^\)]+ *)*\)/igm;
 	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\s*$/igm;
 	
 	
 	$('#parameters input').remove();
-	$('#parameters p, h2, h3').remove();
+	$('#parameters p, h2 ').remove();
 	$('#parameters div').remove();
 //	is the table definition valid?
 	if(cqlCreateTableRegex.test(value)){
@@ -102,11 +102,16 @@ var processTableDef = function(value){
                         }
 			
 			//create input field
-			$('#parameters').append("<div id='columnSizeGroup_"+i+"'><h3>"+colString+"</h3>"+"<input placeholder='Expected size (bytes)' type='text' data-inline='true' style='width:200px' id='columnSize_"+ i +"'></input></div>");
+			createInputField(colString,i,"size","Fixed");
 			//set value when known
 			$('#columnSize_'+ i ).val(defaultSize);
+			
+			//create population input field
+      createInputField(colString,i,"population","Fixed");
+			//set value when known
+			$('#column_Population'+ i ).val(defaultSize);
 
-                        $('[type="text"]').textinput();			
+      $('[type="text"]').textinput();			
 	
 			//inline primary key declaration
 			if ((colDat.length>2 && colDat[2]=="PRIMARY" && colDat[3]=="KEY")){
@@ -125,8 +130,10 @@ var processTableDef = function(value){
 				compKeyList.push(i);
 			}
 
-			insertHistogram('columnSizeGroup_'+ i);
 
+			insertHistogram('columnSizeGroup_'+ i);
+			insertHistogram('columnPopulationGroup_'+ i);
+			
 			i=i+1;
 		}
 		
@@ -176,7 +183,9 @@ var processTableDef = function(value){
 	$("#countResults h3").remove();
 	$("#countResults").append("<h3>Likely select queries for this data model:</h3>");	
 
-	tableName = value.match(/CREATE TABLE.+/i)[0].split(" ")[2];
+	if (value !="" && value != undefined){
+		tableName = value.match(/CREATE TABLE.+/i)[0].split(" ")[2];
+	}
 	var query = "";
 	if (compKeyList.length == 0){
 		query = "Select * from "+ tableName + " where "+ columns[primaryKey] + " = ?";
@@ -188,6 +197,7 @@ var processTableDef = function(value){
 			compCounter++;
 		}
 	}
+	likelyQueries = [];
 	likelyQueries.push(query);
 	$("#countResults").append("<h3>"+query+"</h3>");
 		
@@ -203,7 +213,9 @@ var processTableDef = function(value){
 	}
 		
 	//setup yaml and download
-	$("input[name*=columnSizeGroup_]").change(function() { downloadYaml("autoGen.yaml")} );
+	//$("input[name*=columnSizeGroup_]").change(function() { downloadYaml("autoGen.yaml")} );
+  $("#tabs").click(function() { downloadYaml("autoGen.yaml")} );
+	downloadYaml("autoGen.yaml");
 }
 
 
@@ -310,27 +322,49 @@ function downloadYaml(filename) {
 "columnspec:\n";
 
   for (var i = 0;i < columnLength; i++){
-	if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "uni"){
-		after = after + "  - name: "+ columns[i]  +"\n"+
-		"    size: uniform(5..100)\n"+
-		"    population: uniform(1..10M)\n"+
-		" \n";
-	}if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "exp"){
-                after = after + "  - name: "+ columns[i]  +"\n"+
-                "    size: exponential(5..100)\n"+
-                "    population: uniform(1..10M)\n"+
-                " \n";
-	}if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "ext"){
-                after = after + "  - name: "+ columns[i]  +"\n"+
-                "    size: extreme(5..100)\n"+
-                "    population: uniform(1..10M)\n"+
-                " \n";
-        }if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "norm"){
-                after = after + "  - name: "+ columns[i]  +"\n"+
-                "    size: gaussian(5..100)\n"+
-                "    population: uniform(1..10M)\n"+
-                " \n";
-        }
+
+    //set size distributions  
+    if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "fixed"){
+      after = after + "  - name: "+ columns[i]  +"\n"+
+        "    size: fixed("+$("#columnSize_"+i).val() +")\n";
+    }  
+    if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "uni"){
+      after = after + "  - name: "+ columns[i]  +"\n"+
+        "    size: uniform("+$("#columnSize_"+i).val() +".."+ $("#columnSize_"+i+"_2").val()   +")\n";
+    }if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "exp"){
+      after = after + "  - name: "+ columns[i]  +"\n"+
+        "    size: exponential("+$("#columnSize_"+i).val() +")\n";
+    }if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "ext"){
+      after = after + "  - name: "+ columns[i]  +"\n"+
+        "    size: extreme("+$("#columnSize_"+i).val() +".."+ $("#columnSize_"+i+"_2").val()   +")\n";
+    }if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "norm"){
+      after = after + "  - name: "+ columns[i]  +"\n"+
+        "    size: gaussian("+$("#columnSize_"+i).val() +".."+ $("#columnSize_"+i+"_2").val()   +")\n";
+    }
+
+    //set population distributions
+    if ($("input[name=columnPopulationGroup_"+i+"-radio-choice-h-2]:checked").val() == "fixed"){
+      after = after +
+        "    population: fixed("+$("#columnPopulation_"+i).val() +")\n"+
+        " \n";
+    }    
+    if ($("input[name=columnPopulationGroup_"+i+"-radio-choice-h-2]:checked").val() == "uni"){
+      after = after +
+        "    population: uniform("+$("#columnPopulation_"+i).val() +".."+ $("#columnPopulation_"+i+"_2").val()   +")\n"+
+        " \n";
+    }if ($("input[name=columnPopulationGroup_"+i+"-radio-choice-h-2]:checked").val() == "exp"){
+      after = after +
+        "    population: exponential("+$("#columnPopulation_"+i).val() +")\n"+
+        " \n";
+    }if ($("input[name=columnPopulationGroup_"+i+"-radio-choice-h-2]:checked").val() == "ext"){
+      after = after +
+        "    population: extreme("+$("#columnPopulation_"+i).val() +".."+ $("#columnPopulation_"+i+"_2").val()   +")\n"+
+        " \n";
+    }if ($("input[name=columnPopulationGroup_"+i+"-radio-choice-h-2]:checked").val() == "norm"){
+      after = after +
+        "    population: gaussian("+$("#columnPopulation_"+i).val() +".."+ $("#columnPopulation_"+i+"_2").val()   +")\n"+
+        " \n";
+    }
   }
 	var after = after +
 "\n"+
