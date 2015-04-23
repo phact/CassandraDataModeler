@@ -29,7 +29,7 @@
 
 <body style="background-color:black">
 	<title id="TITLE_5">
-		DataStax CQL Sizer
+		DataStax CQL Data Modeler
 	</title>
 	
 	<link rel="stylesheet" href="css/ds.css" id="LINK_7">
@@ -53,7 +53,7 @@
 										<div id="DIV_68">
 											<div id="DIV_69">
 												<div id="DIV_75">
-	 <span id="SPAN_77"><span id="SPAN_78"><span id="SPAN_79">CQL Sizer</span><span id="SPAN_80"></span></span></span> <span id="SPAN_81"> <span id="SPAN_82">[x]</span></span>
+	 <span id="SPAN_77"><span id="SPAN_78"><span id="SPAN_79">CQL Data Modeler</span><span id="SPAN_80"></span></span></span> <span id="SPAN_81"> <span id="SPAN_82">[x]</span></span>
 												</div>
 											</div>
 											<div id="DIV_83">
@@ -501,7 +501,7 @@
 															<div id="DIV_364">
 																<div id="DIV_365">
 																	<div id="DIV_366">
-																		<span id="SPAN_367">CQL Sizer</span><span id="SPAN_368">:</span>
+																		<span id="SPAN_367">CQL Data Modeler</span><span id="SPAN_368">:</span>
 																	</div>
 																	<div id="DIV_369">
 																		Input your table definition
@@ -517,8 +517,8 @@
 																			<div id="DIV_426">
 																				<span id="SPAN_427"></span>
 																				<form id="FORM_428">
-																				<div>
-																					
+																				<div style="display:block">
+                                          <input style="display:block" id="company_name" placeholder="Company Name"></input>	</br>
 																					<textarea id="tableDef" data-role="none" style="width:600px; height:250px">CREATE TABLE reviews_by_day
 (
 userid text,
@@ -541,16 +541,16 @@ PRIMARY KEY (userid, productid, time, reviewid)
 <h3 id='valid'></h3>
 <div data-role="tabs" id="tabs">
   <div data-role="navbar">
-   <ul>
-      <li><a href="#thriftStorage" class="ui-btn-active" data-ajax="false">Storage Engine Visualization</a></li>
-      <li><a href="#parameters" data-ajax="false">Field Sizing</a></li>
-      <li><a href="#countResults" data-ajax="false">Diagnostics</a></li>
+    <ul>
+      <li><a href="#thriftStorage" class="ui-btn-active" data-ajax="false">1) Storage Engine Visualization</a></li>
+      <li><a href="#parameters" data-ajax="false">2) Configuration</a></li>
+      <li><a href="#countResults" data-ajax="false">3) Test and Diagnosis</a></li>
     </ul>
   </div>
   <div id="thriftStorage" style="overflow:scroll;margin-right:20px" class="ui-body-d ui-content"></div>
   <div id="parameters"></div>
   <div style="display:inline">
-  <div id="countResults"><p>Please complete Field Sizing</p>
+  <div id="countResults"><p>Please complete the configuration tab.</p>
    <a href="" style="font-size: 10px" class="ui-link ui-btn" id="generateYaml">Generate Cassandra Stress 2.1 Yaml</a>
   </div>
 

@@ -14,26 +14,44 @@ var columnLength = 0;
 var primaryKey;
 
 var processTableDef = function(value){
-	
+ 
+  $.mobile.loading( 'show', {
+  text: "Processing CQL Data Model",
+  textVisible: true,
+  theme: "b"
+  }).trigger("create");  
+
+
+
 //here's the regex defs
-	var cqlCreateTableRegex  = /^CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig ;
-	var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
+	var cqlCreateTableRegex  = /^ *\t*CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+\S+)*(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig ;
+	var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+\S+>,)*(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
 	var cqlCompoundPrimaryKeys = /\( *\( *\w+ *(, *[^\)]+ *)*\)/igm;
 	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\s*$/igm;
 	
-	
+//Clear out parameters area.	
 	$('#parameters input').remove();
 	$('#parameters p, h2 ').remove();
 	$('#parameters div').remove();
+
 //	is the table definition valid?
 	if(cqlCreateTableRegex.test(value)){
-		keyList = [];
+
+    
+    $.mobile.loading( 'show', {
+      text: "Processing CQL Data Model",
+      textVisible: true,
+      theme: "b"
+    });
+              
+
+    keyList = [];
 		compKeyList = [];
 		staticList = [];
 		
-		
+	  $('#valid').css("color","white");
 		$('#valid').html("Table Validated");
-		$('#parameters').append("<h2>Please insert expected sizes in bytes</h2>");
+	    $('#parameters').append("<p>In order to generate a cassandra-stress yaml and provide diagnostic information about your data model we need some characteristics about your data.</br>Please let us know how big your fields will be (size distribution) and how frequently values appear (population distribution).</p>");	
 		$('#parameters').append("<div style='width:200px'><h3>Number of Rows:</h3>"+"<input type='text' id='rowCount'></input></div>");
 		
 		var i=0;
@@ -62,6 +80,11 @@ var processTableDef = function(value){
 		}
 		
 		while (i<columnLength){
+
+     // insertHistogram('columnSizeGroup_'+ i);
+     //insertHistogram('columnPopulationGroup_'+ i);
+
+
 			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(/\s+/);
 			columns[i] = colDat[0];
 			colString = colDat[0]+" of type "+colDat[1]+ ":";
@@ -80,26 +103,26 @@ var processTableDef = function(value){
 			}
 			if (colDat[1] == "counter"){
 				defaultSize = "4";
-			}
-                        if (colDat[1] == "double"){
-                                defaultSize = "8";
-                        }
-                        if (colDat[1] == "float"){
-                                defaultSize = "4";
-                        }
-                        if (colDat[1] == "inet"){
-                                //per http://en.wikipedia.org/wiki/IPv6
-				defaultSize = "32";
-                        }
-                        if (colDat[1] == "timestamp"){
-                                defaultSize = "8";
-                        }
-                        if (colDat[1] == "uuid"){
-                                defaultSize = "32";
-                        }
-                        if (colDat[1] == "timeuuid"){
-                                defaultSize = "32";
-                        }
+      }
+      if (colDat[1] == "double"){
+        defaultSize = "8";
+      }
+      if (colDat[1] == "float"){
+        defaultSize = "4";
+      }
+      if (colDat[1] == "inet"){
+        //per http://en.wikipedia.org/wiki/IPv6
+        defaultSize = "32";
+      }
+      if (colDat[1] == "timestamp"){
+        defaultSize = "8";
+      }
+      if (colDat[1] == "uuid"){
+        defaultSize = "32";
+      }
+      if (colDat[1] == "timeuuid"){
+        defaultSize = "32";
+      }
 			
 			//create input field
 			createInputField(colString,i,"size","Fixed");
@@ -162,13 +185,14 @@ var processTableDef = function(value){
 	}
 	else{
 		$('#valid').html("Invalid Syntax");
+    $('#valid').css("color","red");
 	}
 	
 	
 	
 	//bind
 	$("#parameters input").change(function(){
-		calculateSize();
+    calculateSize();
 	});
 	
 	//stat collection
@@ -216,6 +240,10 @@ var processTableDef = function(value){
 	//$("input[name*=columnSizeGroup_]").change(function() { downloadYaml("autoGen.yaml")} );
   $("#tabs").click(function() { downloadYaml("autoGen.yaml")} );
 	downloadYaml("autoGen.yaml");
+
+  
+  $.mobile.loading('hide');
+
 }
 
 
@@ -295,12 +323,15 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 	$('#countResults').append("<p>Number of Cells in Partition: "+(nv)+"</p>");
 	$('#countResults').append("<p>Size of Partition: " + sizeOnDisk +"</p>");
 
+
 }
 
 
 //Ugly....
 function downloadYaml(filename) {
   var text = $("#tableDef").val();
+//yaml requires that we have spaces in the table def...
+  text = "  "+ text.replace(/\n/g,"\n  ");
   var before = "### DML ### THIS IS UNDER CONSTRUCTION!!!\n"+
 " \n"+
 "# Keyspace Name\n"+
@@ -333,7 +364,7 @@ function downloadYaml(filename) {
         "    size: uniform("+$("#columnSize_"+i).val() +".."+ $("#columnSize_"+i+"_2").val()   +")\n";
     }if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "exp"){
       after = after + "  - name: "+ columns[i]  +"\n"+
-        "    size: exponential("+$("#columnSize_"+i).val() +")\n";
+        "    size: exp("+$("#columnSize_"+i).val() +".."+ $("#columnPopulation_"+i+"_2").val() +")\n";
     }if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "ext"){
       after = after + "  - name: "+ columns[i]  +"\n"+
         "    size: extreme("+$("#columnSize_"+i).val() +".."+ $("#columnSize_"+i+"_2").val()   +")\n";
@@ -374,9 +405,7 @@ function downloadYaml(filename) {
 "insert:\n"+
 "  partitions: fixed(1)            # Our partition key is the domain so only insert one per batch\n"+
 " \n"+
-"  pervisit:  fixed(1)/1000        # We have 1000 posts per domain so 1/1000 will allow 1 post per batch  \n"+
-" \n"+
-"  perbatch:  fixed(1)/1           # With one partition per batch we can set this to 100% \n"+
+"  select:  fixed(1)/1000        # We have 1000 posts per domain so 1/1000 will allow 1 post per batch  \n"+
 " \n"+
 "  batchtype: UNLOGGED             # Unlogged batches\n"+
 " \n"+
@@ -387,7 +416,7 @@ function downloadYaml(filename) {
 "queries:\n";
 
 for (var i=0; i<likelyQueries.length; i++){
-	after = after + "   likelyquery"+i+":  "+likelyQueries[i]+"\n";
+	after = after + "   likelyquery"+i+": \n    cql: "+likelyQueries[i]+"\n    fields: samerow\n";
 }
  
   var pom = $("#generateYaml")[0];
@@ -398,7 +427,16 @@ for (var i=0; i<likelyQueries.length; i++){
 		
 
 $("#tableDef").bind('input propertychange', function() {
-	processTableDef($("#tableDef").val());
+	
+  $.mobile.loading( 'show', {
+    text: "Processing CQL Data Model",
+    textVisible: true,
+    theme: "b"
+  }).trigger("create");
+
+   myVar = setTimeout(processTableDef($("#tableDef").val()), 100000)
+   
+   //processTableDef($("#tableDef").val());
 });
 
 

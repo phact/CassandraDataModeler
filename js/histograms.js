@@ -2,34 +2,35 @@ function insertHistogram(divID){
 
   function addMiniHist(divID){
     $("#"+divID+ " #svgDiv").remove();
-    var myDiv = $("#"+divID).append("<div class='histogram' id='svgDiv' style='display:inline; margin:40px'></div>");
-    $("#"+divID+ " #svgDiv").append("<fieldset data-role='controlgroup' data-type='horizontal' style='display:inline'>"+
+    var myDiv = $("#"+divID + " > div:nth-child(2)").before("<div class='histogram' id='svgDiv' style='display:inline; '></div>");
+    $("#"+divID+ " #svgDiv").prepend("<fieldset data-role='controlgroup' data-type='horizontal' style='display:inline'>"+
                                     //myDiv.append("<fieldset data-role='controlgroup' data-type='horizontal'>"+
-                                    "<legend>Size Distribution:</legend>"+
-                                    "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2a' value='fixed'>"+
-                                    "<label for='"+ divID  +"-radio-choice-h-2a'>Fixed</label>"+
+                                     "<legend>Select a Distribution (see the tooltips and the graphic to help make a decision):</legend>"+
+                                     "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2d' value='norm'>"+
+                                     "<label for='"+ divID  +"-radio-choice-h-2d' title='Sizes look like a bell curve / Frequency of occurences look like a bell curve'>Normal</label>"+
+                                     "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2a' value='fixed'>"+
+                                    "<label for='"+ divID  +"-radio-choice-h-2a' title='Every value has the same size / Every value appears the same number of times' >Fixed"+
+                                    "</label>"+
+                                     "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2e' value='uni'>"+
+                                    "<label for='"+ divID  +"-radio-choice-h-2e' title='There is a wide range of sizes but they occurr with the same frequency / There is a range of crdinalities, but they occur with the same frequency'>Uniform</label>"+
                                     "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2b' value='exp'>"+
-                                    "<label for='"+ divID  +"-radio-choice-h-2b'>Exponential</label>"+
+                                    "<label for='"+ divID  +"-radio-choice-h-2b' title='Most values are small but some are large, decreasing exponentially / Most values occur with a low cardinality but a few have high cardinality, decreasing exponentially'>Exponential</label>"+
                                     "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2c' value='ext'>"+
-                                    "<label for='"+ divID  +"-radio-choice-h-2c'>Extreme</label>"+
-                                    "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2d' value='norm'>"+
-                                    "<label for='"+ divID  +"-radio-choice-h-2d'>Normal</label>"+
-                                    "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2e' value='uni'>"+
-                                    "<label for='"+ divID  +"-radio-choice-h-2e'>Uniform</label>"+
+                                    "<label for='"+ divID  +"-radio-choice-h-2c' title='Sizes look like a skewed bell curve / Frequency of occurences look like a skewed bell curve'>Extreme</label>"+
                                     "</fieldset>");
+
 
     $(".histogram").trigger("create")
 
   }
-
 
   addMiniHist(divID);
 
   $("#"+divID+" input").change(function(){ drawMiniHist(divID, this.value)  } );
 
   //Since Fixed is default - set Fixed settings
-  $("#"+divID+"-radio-choice-h-2a").prop("checked", true).checkboxradio("refresh");
-  drawMiniHist(divID, "fixed");
+  $("#"+divID+"-radio-choice-h-2d").prop("checked", true).checkboxradio("refresh");
+  drawMiniHist(divID, "norm");
 
   //ugly
   $("#columnSize_"+divID.substr(divID.length - 1)+"_2").textinput('disable');
@@ -76,27 +77,32 @@ function insertHistogram(divID){
         }
       });
       $("#"+inputID).textinput('disable');
+      $("#columnSize_"+ divID.substr(divID.length - 1) ).attr("placeholder","Size (bytes)");
     }
 
     //exponential
     if (distribution == "exp") {
       values = d3.range(n).map(function(x, i){ return vars.exponential(lambda); } );
-      $("#"+inputID).textinput('disable');
+      $("#"+inputID).textinput('enable');
+      $("#columnSize_"+ divID.substr(divID.length - 1) ).attr("placeholder","Minimum size (bytes)");
     }
     //weibull
     if (distribution == "ext"){
       values = d3.range(n).map(function(x, i){ return vars.weibull(alpha,beta); } );
       $("#"+inputID).textinput('enable');
+      $("#columnSize_"+ divID.substr(divID.length - 1) ).attr("placeholder","Minimum size (bytes)");
     }
     //normal
     if (distribution == "norm"){
       values = d3.range(n).map(function(x, i){ return vars.normal(mean, stdv); });
       $("#"+inputID).textinput('enable');
+      $("#columnSize_"+ divID.substr(divID.length - 1) ).attr("placeholder","Minimum size (bytes)");
     }
     //uniform
     if (distribution == "uni"){
       values = d3.range(n).map(function(x, i){ return vars.uniform(min, max); });
       $("#"+inputID).textinput('enable');
+      $("#columnSize_"+ divID.substr(divID.length - 1) ).attr("placeholder","Minimum size (bytes)");
       //    values = d3.range(n).map(function(x, i){ return min + Math.random()* max; });
     }
     // Generate a Bates distribution of 10 random variables.
@@ -164,22 +170,22 @@ function insertHistogram(divID){
 function createInputField(colString, i, category){
 
   if (category == "size"){
-    $('#parameters').append("<div id='columnSizeGroup_"+i+"'><h3>"+colString+"</h3>"+
+    $('#parameters').append("<div id='columnSizeGroup_"+i+"'><h3>Size information for "+colString+"</h3>"+
                             "<div style='display:inline;margin-right:5px'>"+
-                            "<input placeholder='Expected size (bytes)' type='text' data-inline='true' style='width:200px' id='columnSize_"+ i +"'></input>"+
+                            "</br><input placeholder='Minimum size (bytes)' type='text' data-inline='true'  id='columnSize_"+ i +"'></input>"+
                             "</div>"+
                             "<div style='display:inline;margin-right:5px'>"+
-                            "<input placeholder='Expected size (bytes)' type='text' data-inline='true' style='width:200px' id='columnSize_"+ i +"_2'></input>"+
+                            "<input placeholder='Maximum size (bytes)' type='text' data-inline='true'  id='columnSize_"+ i +"_2'></input>"+
                             "</div>"+
                             "</div>");
   }
   if (category == "population"){
-    $('#parameters').append("<div id='columnPopulationGroup_"+i+"'><h3>"+colString+"</h3>"+
+    $('#parameters').append("<div id='columnPopulationGroup_"+i+"'><h3>Population information for "+colString+"</h3>"+
                             "<div style='display:inline;margin-right:5px'>"+
-                            "<input placeholder='Expected population (count)' type='text' data-inline='true' style='width:200px' id='columnPopulation_"+ i +"'></input>"+
+                            "</br><input placeholder='Minimum population (count)' type='text' data-inline='true'  id='columnPopulation_"+ i +"'></input>"+
                             "</div>"+
                             "<div style='display:inline;margin-right:5px'>"+
-                            "<input placeholder='Expected population (count)' type='text' data-inline='true' style='width:200px' id='columnPopulation_"+ i +"_2'></input>"+
+                            "<input placeholder='Maximum population (count)' type='text' data-inline='true'  id='columnPopulation_"+ i +"_2'></input>"+
                             "</div>"+
                             "</div>");
   }

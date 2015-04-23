@@ -3019,7 +3019,7 @@ th {
     float: left;
     height: 24px;
     text-decoration: none solid rgb(153, 153, 153);
-    width: 120px;
+    width: 220px;
     perspective-origin: 43.75px 12px;
     transform-origin: 43.75px 12px;
     border: 0px none rgb(153, 153, 153);
@@ -9329,6 +9329,6 @@ th {
 }/*#DIV_2542*/
 
 insert, .ui-input-text{
-    width:200px;
+    width:250px;
     display:inline-block;
 }
