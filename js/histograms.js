@@ -33,8 +33,8 @@ function insertHistogram(divID){
   drawMiniHist(divID, "norm");
 
   //ugly
-  $("#columnSize_"+divID.substr(divID.length - 1)+"_2").textinput('disable');
-  $("#columnPopulation_"+divID.substr(divID.length - 1)+"_2").textinput('disable');
+  //$("#columnSize_"+divID.substr(divID.length - 1)+"_2").textinput('disable');
+  //$("#columnPopulation_"+divID.substr(divID.length - 1)+"_2").textinput('disable');
 
 
   function drawMiniHist(divId, distribution){
@@ -62,8 +62,21 @@ function insertHistogram(divID){
     //Determine size or population from divID
     if (divID.substr(0,divID.length -1) == "columnSizeGroup_"){
       inputID = "columnSize_"+divID.substr(divID.length - 1) + "_2";
+      type = "Size";
+      unit = "bytes";
     }else{
       inputID = "columnPopulation_"+divID.substr(divID.length - 1) + "_2";
+      type = "Population";
+      unit = "count";
+    }
+    if (divID.substr(0,divID.length -1) == "columnSizeGroup_"){
+      inputID1 = "columnSize_"+divID.substr(divID.length - 1) ;
+      type = "Size";
+      unit = "bytes";
+    }else{
+      inputID1 = "columnPopulation_"+divID.substr(divID.length - 1) ;
+      type = "Population";
+      unit = "count";
     }
 
     //fixed
@@ -77,32 +90,32 @@ function insertHistogram(divID){
         }
       });
       $("#"+inputID).textinput('disable');
-      $("#columnSize_"+ divID.substr(divID.length - 1) ).attr("placeholder","Size (bytes)");
+      $("#"+ inputID1).attr("placeholder",type + " ("+unit+")");
     }
 
     //exponential
     if (distribution == "exp") {
       values = d3.range(n).map(function(x, i){ return vars.exponential(lambda); } );
       $("#"+inputID).textinput('enable');
-      $("#columnSize_"+ divID.substr(divID.length - 1) ).attr("placeholder","Minimum size (bytes)");
+      $("#"+ inputID1).attr("placeholder","Minimum "+type.toLowerCase()+" ("+unit+")");
     }
     //weibull
     if (distribution == "ext"){
       values = d3.range(n).map(function(x, i){ return vars.weibull(alpha,beta); } );
       $("#"+inputID).textinput('enable');
-      $("#columnSize_"+ divID.substr(divID.length - 1) ).attr("placeholder","Minimum size (bytes)");
+      $("#"+ inputID1).attr("placeholder","Minimum "+type.toLowerCase()+" ("+unit+")");
     }
     //normal
     if (distribution == "norm"){
       values = d3.range(n).map(function(x, i){ return vars.normal(mean, stdv); });
       $("#"+inputID).textinput('enable');
-      $("#columnSize_"+ divID.substr(divID.length - 1) ).attr("placeholder","Minimum size (bytes)");
+      $("#"+ inputID1).attr("placeholder","Minimum "+type.toLowerCase()+" ("+unit+")");
     }
     //uniform
     if (distribution == "uni"){
       values = d3.range(n).map(function(x, i){ return vars.uniform(min, max); });
       $("#"+inputID).textinput('enable');
-      $("#columnSize_"+ divID.substr(divID.length - 1) ).attr("placeholder","Minimum size (bytes)");
+      $("#"+ inputID1).attr("placeholder","Minimum "+type.toLowerCase()+" ("+unit+")");
       //    values = d3.range(n).map(function(x, i){ return min + Math.random()* max; });
     }
     // Generate a Bates distribution of 10 random variables.
