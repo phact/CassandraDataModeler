@@ -27,7 +27,7 @@ var processTableDef = function(value){
 	var cqlCreateTableRegex  = /^ *\t*CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+\S+)*(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig ;
 	var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+\S+>,)*(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
 	var cqlCompoundPrimaryKeys = /\( *\( *\w+ *(, *[^\)]+ *)*\)/igm;
-	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\s*;?$/igm;
+	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\t* *;?$/igm;
 	
 //Clear out parameters area.	
 	$('#parameters input').remove();
@@ -63,7 +63,7 @@ var processTableDef = function(value){
 		keys = value.match(cqlPrimaryKeys);
 		if (keys !== null){
 			keys = keys.toString();
-			keys = keys.replace("PRIMARY KEY","").replace(/\(+/ig,"").replace(/\)+/gi,"").trim().split(",");
+			keys = keys.replace("PRIMARY KEY","").replace(/;+/ig,"").replace(/\(+/ig,"").replace(/\)+/gi,"").trim().split(",");
 			keys = $.each(keys,function(i, v){
 				keys[i] = v.trim();
 			});
