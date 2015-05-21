@@ -14,17 +14,17 @@ var columnLength = 0;
 var primaryKey;
 
 var processTableDef = function(value){
- 
+/* 
   $.mobile.loading( 'show', {
   text: "Processing CQL Data Model",
   textVisible: true,
   theme: "b"
   }).trigger("create");  
-
+*/
 
 
 //here's the regex defs
-	var cqlCreateTableRegex  = /^ *\t*CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+\S+)*(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig ;
+	var cqlCreateTableRegex  = /^\s? *\t*CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+\S+)*(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig ;
 	var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+\S+>,)*(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
 	var cqlCompoundPrimaryKeys = /\( *\( *\w+ *(, *[^\)]+ *)*\)/igm;
 	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\t* *;?$/igm;
@@ -56,6 +56,7 @@ var processTableDef = function(value){
 		
 		var i=0;
 		columns =value.match(cqlColumnsRegex);
+    columns.pop(columns.indexOf(";"));
 		columnLength = columns.length;
 
 		
@@ -85,7 +86,7 @@ var processTableDef = function(value){
      //insertHistogram('columnPopulationGroup_'+ i);
 
 
-			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(/\s+/);
+			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/;/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(/\s+/);
 			columns[i] = colDat[0];
 			colString = colDat[0]+" of type "+colDat[1]+ ":";
 
@@ -425,21 +426,42 @@ for (var i=0; i<likelyQueries.length; i++){
 }
 
 		
+//$(document).on('blur', '#tableDef', function () {
+//processTableDef($("#tableDef").val());
+//});
 
+var delay = (function(){
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
+
+$(document).on('keyup', '#tableDef', function () {
+  delay(function(){
+    processTableDef($("#tableDef").val());
+  }, 1000 );
+});
+
+
+
+/*
 $("#tableDef").bind('input propertychange', function() {
-	
+/*	
   $.mobile.loading( 'show', {
     text: "Processing CQL Data Model",
     textVisible: true,
     theme: "b"
   }).trigger("create");
-
-   myVar = setTimeout(processTableDef($("#tableDef").val()), 100000)
-   
-   //processTableDef($("#tableDef").val());
+*  / 
+   //myVar = setTimeout(processTableDef($("#tableDef").val()), 100000)
+   processTableDef($("#tableDef").val());
 });
+*/
 
-
+/*
 $(document).bind("mobileinit", function(){
   $.mobile.touchOverflowEnabled = true;
 });
+*/
