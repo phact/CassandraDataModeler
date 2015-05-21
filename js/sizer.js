@@ -56,7 +56,9 @@ var processTableDef = function(value){
 		
 		var i=0;
 		columns =value.match(cqlColumnsRegex);
-    columns.pop(columns.indexOf(";"));
+    
+    columns = columns.filter(function (d){ return d.indexOf(";") == -1 });
+    //columns.pop(columns.indexOf(";"));
 		columnLength = columns.length;
 
 		
