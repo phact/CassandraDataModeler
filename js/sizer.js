@@ -27,7 +27,7 @@ var processTableDef = function(value){
 	var cqlCreateTableRegex  = /^ *\t*CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+\S+)*(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig ;
 	var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+\S+>,)*(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
 	var cqlCompoundPrimaryKeys = /\( *\( *\w+ *(, *[^\)]+ *)*\)/igm;
-	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\s*$/igm;
+	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\s*;?$/igm;
 	
 //Clear out parameters area.	
 	$('#parameters input').remove();
