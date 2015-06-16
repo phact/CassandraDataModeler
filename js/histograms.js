@@ -12,7 +12,7 @@ function insertHistogram(divID){
                                     "<label for='"+ divID  +"-radio-choice-h-2a' title='Every value has the same size / Every value appears the same number of times' >Fixed"+
                                     "</label>"+
                                      "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2e' value='uni'>"+
-                                    "<label for='"+ divID  +"-radio-choice-h-2e' title='There is a wide range of sizes but they occurr with the same frequency / There is a range of crdinalities, but they occur with the same frequency'>Uniform</label>"+
+                                    "<label for='"+ divID  +"-radio-choice-h-2e' title='There is a wide range of sizes but they occurr with the same frequency / There is a range of cardinalities, but they occur with the same frequency'>Uniform</label>"+
                                     "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2b' value='exp'>"+
                                     "<label for='"+ divID  +"-radio-choice-h-2b' title='Most values are small but some are large, decreasing exponentially / Most values occur with a low cardinality but a few have high cardinality, decreasing exponentially'>Exponential</label>"+
                                     "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2c' value='ext'>"+
@@ -183,7 +183,7 @@ function insertHistogram(divID){
 function createInputField(colString, i, category){
 
   if (category == "size"){
-    $('#parameters').append("<div id='columnSizeGroup_"+i+"'><h3>Size information for "+colString+"</h3>"+
+    $('#parameters').append("<div id='columnSizeGroup_"+i+"'><h3><font color='#cb5f17'>Size</font> information for "+colString+"</h3>"+
                             "<div style='display:inline;margin-right:5px'>"+
                             "</br><input placeholder='Minimum size (bytes)' type='text' data-inline='true'  id='columnSize_"+ i +"'></input>"+
                             "</div>"+
@@ -193,7 +193,7 @@ function createInputField(colString, i, category){
                             "</div>");
   }
   if (category == "population"){
-    $('#parameters').append("<div id='columnPopulationGroup_"+i+"'><h3>Population information for "+colString+"</h3>"+
+    $('#parameters').append("<div id='columnPopulationGroup_"+i+"'><h3><font color='#cb5f17'>Population</font> information for "+colString+"</h3>"+
                             "<div style='display:inline;margin-right:5px'>"+
                             "</br><input placeholder='Minimum population (count)' type='text' data-inline='true'  id='columnPopulation_"+ i +"'></input>"+
                             "</div>"+

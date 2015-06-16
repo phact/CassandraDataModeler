@@ -90,7 +90,7 @@ var processTableDef = function(value){
 
 			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/;/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(/\s+/);
 			columns[i] = colDat[0];
-			colString = colDat[0]+" of type "+colDat[1]+ ":";
+			colString = "<font color='#cb5f17'>"+colDat[0]+"</font> of type "+colDat[1]+ ":";
 
 			//find primitives and assign default size
 			var defaultSize ="";
