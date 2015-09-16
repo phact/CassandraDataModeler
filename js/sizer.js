@@ -34,6 +34,19 @@ var processTableDef = function(value){
 	$('#parameters p, h2 ').remove();
 	$('#parameters div').remove();
 
+	//clean up the text area -- value
+	value = value.replace(/--.+[\r\n]/gm,"\n");
+	value = value.replace(/\/\/.+[\r\n]/gm,"\n");
+	value = value.replace(/^\s+/gm,"\n");
+	value = value.replace(/^\s*[\r\n]/gm,"");
+        pk = $("#tableDef").val().match(/^\(* *\t*PRIMARY KEY\s*\(.+\)\s*\)?.+?$/img)
+	value = value.replace(/^\(* *\t*PRIMARY KEY\s*\(.+\)\s*\)?.+?$/img,"")
+	value = value.replace(/,/gm,",\n")
+	value = value + pk[0]
+	value = value.replace(/^\s*[\r\n]/gm,"");
+	$("#tableDef").val(value);
+
+
 //	is the table definition valid?
 	if(cqlCreateTableRegex.test(value)){
 
@@ -66,7 +79,7 @@ var processTableDef = function(value){
 		keys = value.match(cqlPrimaryKeys);
 		if (keys !== null){
 			keys = keys.toString();
-			keys = keys.replace("PRIMARY KEY","").replace(/;+/ig,"").replace(/\(+/ig,"").replace(/\)+/gi,"").trim().split(",");
+			keys = keys.replace(/PRIMARY KEY/ig,"").replace(/;+/ig,"").replace(/\(+/ig,"").replace(/\)+/gi,"").trim().split(",");
 			keys = $.each(keys,function(i, v){
 				keys[i] = v.trim();
 			});

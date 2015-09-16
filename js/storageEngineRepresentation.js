@@ -67,7 +67,7 @@ var drawStorageEngine = function(){
 	if (compKeyList.length ==0){
 		jdata = [
 			{
-				"PartitionKey": "<" + keys[primaryKey] + ">",
+				"PartitionKey": "<" + columns[primaryKey] + ">",
 				" ":columnsArray
 			}]
 	}else{
