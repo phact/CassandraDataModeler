@@ -42,7 +42,7 @@ var processTableDef = function(value){
         pk = $("#tableDef").val().match(/^\(* *\t*PRIMARY KEY\s*\(.+\)\s*\)?.+?$/img)
 	value = value.replace(/^\(* *\t*PRIMARY KEY\s*\(.+\)\s*\)?.+?$/img,"")
 	value = value.replace(/,/gm,",\n")
-	value = value + pk[0]
+	value = value + pk[0].trim()
 	value = value.replace(/^\s*[\r\n]/gm,"");
 	$("#tableDef").val(value);
 
