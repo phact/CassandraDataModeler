@@ -1,4 +1,4 @@
-CASTableSizer
+Cassandra Data Modeler
 =============
 
 To test run the following (on python 2.x)
