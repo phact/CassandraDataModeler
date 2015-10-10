@@ -239,7 +239,7 @@ var processTableDef = function(value){
 	}
 	likelyQueries = [];
 	likelyQueries.push(query);
-	$("#countResults").append("<h3>"+query+"</h3>");
+	$("#countResults").append("<h3>"+query+";</h3>");
 		
 	cCCount = 0;
 	while (cCCount < clusterKeyList.length){
@@ -248,7 +248,7 @@ var processTableDef = function(value){
 		
 		likelyQueries.push(query);
 
-		$("#countResults").append("<h3>"+query+"</h3>");
+		$("#countResults").append("<h3>"+query+";</h3>");
 		cCCount++;
 	}
 		
