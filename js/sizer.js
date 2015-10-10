@@ -228,12 +228,12 @@ var processTableDef = function(value){
 	}
 	var query = "";
 	if (compKeyList.length == 0){
-		query = "Select * from "+ tableName + " where "+ columns[primaryKey] + " = ?";
+		query = "SELECT * FROM "+ tableName + " WHERE "+ columns[primaryKey] + " = ?";
 	}else{
 		var compCounter = 1;
-		query = "Select * from "+  tableName + " where "+ columns[compKeyList[0]] + " = ?";
+		query = "SELECT * FROM "+  tableName + " WHERE "+ columns[compKeyList[0]] + " = ?";
 		while (compCounter < compKeyList.length){
-			query = query + " and "+columns[compKeyList[compCounter]]+" = ?";
+			query = query + " AND "+columns[compKeyList[compCounter]]+" = ?";
 			compCounter++;
 		}
 	}
@@ -244,7 +244,7 @@ var processTableDef = function(value){
 	cCCount = 0;
 	while (cCCount < clusterKeyList.length){
 		var cColumn = columns[clusterKeyList[cCCount]];
-		query = query + " and "+cColumn + " = ?";
+		query = query + " AND "+cColumn + " = ?";
 		
 		likelyQueries.push(query);
 
