@@ -14,12 +14,12 @@ var columnLength = 0;
 var primaryKey;
 
 var processTableDef = function(value){
-/* 
+/*
   $.mobile.loading( 'show', {
   text: "Processing CQL Data Model",
   textVisible: true,
   theme: "b"
-  }).trigger("create");  
+  }).trigger("create");
 */
 
 
@@ -28,8 +28,8 @@ var processTableDef = function(value){
 	var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+\S+>,)*(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
 	var cqlCompoundPrimaryKeys = /\( *\( *\w+ *(, *[^\)]+ *)*\)/igm;
 	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\t* *;?$/igm;
-	
-//Clear out parameters area.	
+
+//Clear out parameters area.
 	$('#parameters input').remove();
 	$('#parameters p, h2 ').remove();
 	$('#parameters div').remove();
@@ -50,31 +50,31 @@ var processTableDef = function(value){
 //	is the table definition valid?
 	if(cqlCreateTableRegex.test(value)){
 
-    
+
     $.mobile.loading( 'show', {
       text: "Processing CQL Data Model",
       textVisible: true,
       theme: "b"
     });
-              
+
 
     keyList = [];
 		compKeyList = [];
 		staticList = [];
-		
+
 	  $('#valid').css("color","white");
 		$('#valid').html("Table Validated");
-	    $('#parameters').append("<p>In order to generate a cassandra-stress yaml and provide diagnostic information about your data model we need some characteristics about your data.</br>Please let us know how big your fields will be (size distribution) and how frequently values appear (population distribution).</p>");	
+	    $('#parameters').append("<p>In order to generate a cassandra-stress yaml and provide diagnostic information about your data model we need some characteristics about your data.</br>Please let us know how big your fields will be (size distribution) and how frequently values appear (population distribution).</p>");
 		$('#parameters').append("<div style='width:200px'><h3>Number of Rows:</h3>"+"<input type='text' id='rowCount'></input></div>");
-		
+
 		var i=0;
 		columns =value.match(cqlColumnsRegex);
-    
+
     columns = columns.filter(function (d){ return d.indexOf(";") == -1 });
     //columns.pop(columns.indexOf(";"));
 		columnLength = columns.length;
 
-		
+
 		//identify explicit primary keys
 		keys = value.match(cqlPrimaryKeys);
 		if (keys !== null){
@@ -84,7 +84,7 @@ var processTableDef = function(value){
 				keys[i] = v.trim();
 			});
 		}
-		
+
 		//identify explicit compound keys
 		var compKeys = value.match(cqlCompoundPrimaryKeys);
 		if (compKeys !== null){
@@ -94,7 +94,7 @@ var processTableDef = function(value){
 				compKeys[i] = v.trim();
 			});
 		}
-		
+
 		while (i<columnLength){
 
      // insertHistogram('columnSizeGroup_'+ i);
@@ -139,19 +139,19 @@ var processTableDef = function(value){
       if (colDat[1] == "timeuuid"){
         defaultSize = "32";
       }
-			
+
 			//create input field
 			createInputField(colString,i,"size","Fixed");
 			//set value when known
 			$('#columnSize_'+ i ).val(defaultSize);
-			
+
 			//create population input field
       createInputField(colString,i,"population","Fixed");
 			//set value when known
 			$('#column_Population'+ i ).val(defaultSize);
 
-      $('[type="text"]').textinput();			
-	
+      $('[type="text"]').textinput();
+
 			//inline primary key declaration
 			if ((colDat.length>2 && colDat[2]=="PRIMARY" && colDat[3]=="KEY")){
 				keyList.push(i);
@@ -172,13 +172,13 @@ var processTableDef = function(value){
 
 			insertHistogram('columnSizeGroup_'+ i);
 			insertHistogram('columnPopulationGroup_'+ i);
-			
+
 			i=i+1;
 		}
-		
+
 		//key split and print
 		clusterKeyList = $.extend(true, [], keyList);
-		
+
 		if (compKeyList.length > 0){
 			var i=0;
 			var keyLength = clusterKeyList.length;
@@ -189,39 +189,39 @@ var processTableDef = function(value){
 				}
 				i=i+1;
 			}
-			$('#parameters').append("<p>Compound Primary: "+compKeyList+" Clustering: "+clusterKeyList.toString()+"<\p>");	
-		
+			$('#parameters').append("<p>Compound Primary: "+compKeyList+" Clustering: "+clusterKeyList.toString()+"<\p>");
+
 		}else{
-		
+
 			primaryKey = clusterKeyList[0];
 			clusterKeyList.shift();
 			$('#parameters').append("<p>Primary: "+primaryKey+" Clustering: "+clusterKeyList.toString()+"<\p>");
 		}
-		
+
 	}
 	else{
 		$('#valid').html("Invalid Syntax");
     $('#valid').css("color","red");
 	}
-	
-	
-	
+
+
+
 	//bind
 	$("#parameters input").change(function(){
     calculateSize();
 	});
-	
+
 	//stat collection
-	
+
 	if (compKeys != null){
 		compLength = compKeys.length;
 	}
-	
+
 	//draw Storage Engine
 	drawStorageEngine();
-	
+
 	$("#countResults h3").remove();
-	$("#countResults").append("<h3>Likely select queries for this data model:</h3>");	
+	$("#countResults").append("<h3>Likely select queries for this data model:</h3>");
 
 	if (value !="" && value != undefined){
 		tableName = value.match(/CREATE TABLE.+/i)[0].split(" ")[2];
@@ -240,40 +240,40 @@ var processTableDef = function(value){
 	likelyQueries = [];
 	likelyQueries.push(query);
 	$("#countResults").append("<h3>"+query+";</h3>");
-		
+
 	cCCount = 0;
 	while (cCCount < clusterKeyList.length){
 		var cColumn = columns[clusterKeyList[cCCount]];
 		query = query + " AND "+cColumn + " = ?";
-		
+
 		likelyQueries.push(query);
 
 		$("#countResults").append("<h3>"+query+";</h3>");
 		cCCount++;
 	}
-		
+
 	//setup yaml and download
 	//$("input[name*=columnSizeGroup_]").change(function() { downloadYaml("autoGen.yaml")} );
   $("#tabs").click(function() { downloadYaml("autoGen.yaml")} );
 	downloadYaml("autoGen.yaml");
 
-  
+
   $.mobile.loading('hide');
 
 }
 
 
 var calculateSize = function(){
-	
+
 	//Here we'll be doing some math to figure out the table size etc:
 	/* Here's the math
 
 Number of rows * ( Number of Columns - Partition Keys - Static Columns ) + Static Columns = Number of Values
 
 
-Sum of the size of the Keys + Sum of the size of the static columns + Number of rows * 
+Sum of the size of the Keys + Sum of the size of the static columns + Number of rows *
 	( Sum of the size of the rows + Sum of the size of the Clustering Columns) +  8 * Number of Values = Size of table
-				
+
 	*/
 	$('#countResults').remove("p");
 
@@ -282,10 +282,10 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 	}else{
 		rowCount = 0;
 	}
-	
+
 	var staticCount = staticList.length;
 	var keysCount = keyList.length
-	
+
 	var nv = rowCount*(columnLength - keysCount - staticCount ) + staticCount;
 	$('#countResults p').remove();
 
@@ -295,15 +295,15 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 	var staticSize = 0
 	var i=0;
 	while (i < columnLength){
-		
+
 		if (i == primaryKey){
 			primaryKeySize = parseInt($('#columnSize_'+i).val());
 		}
-		
+
 		else if ($.inArray(i, clusterKeyList) >=0 ){
 			clusterKeySize = clusterKeySize + parseInt($('#columnSize_'+i).val());
 		}
-		
+
 		else if ($.inArray(i, staticList) >= 0 ){
 			staticSize = staticSize + parseInt($('#columnSize_'+i).val());
 		}
@@ -312,11 +312,11 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 			rowsCount = rowsCount + 1;
 		}
 		i = i+1;
-		
+
 	}
 
 	var sizeOnDisk =  primaryKeySize + staticSize + rowCount * (rowsSize + rowsCount * clusterKeySize) + 8*nv
-	
+
 
         //check for warning
         if (nv>100000 || sizeOnDisk > 100*1048567){
@@ -351,11 +351,11 @@ function downloadYaml(filename) {
   var before = "### DML ### THIS IS UNDER CONSTRUCTION!!!\n"+
 " \n"+
 "# Keyspace Name\n"+
-"keyspace: AutoGeneratedTest\n"+
+"keyspace: autogeneratedtest\n"+
 " \n"+
 "# The CQL for creating a keyspace (optional if it already exists)\n"+
 "keyspace_definition: |\n"+
-"  CREATE KEYSPACE AutoGeneratedTest WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};\n"+
+"  CREATE KEYSPACE autogeneratedtest WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};\n"+
 " \n"+
 "# Table name\n"+
 "table: "+ tableName +"\n"+
@@ -370,11 +370,11 @@ function downloadYaml(filename) {
 
   for (var i = 0;i < columnLength; i++){
 
-    //set size distributions  
+    //set size distributions
     if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "fixed"){
       after = after + "  - name: "+ columns[i]  +"\n"+
         "    size: fixed("+$("#columnSize_"+i).val() +")\n";
-    }  
+    }
     if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "uni"){
       after = after + "  - name: "+ columns[i]  +"\n"+
         "    size: uniform("+$("#columnSize_"+i).val() +".."+ $("#columnSize_"+i+"_2").val()   +")\n";
@@ -394,7 +394,7 @@ function downloadYaml(filename) {
       after = after +
         "    population: fixed("+$("#columnPopulation_"+i).val() +")\n"+
         " \n";
-    }    
+    }
     if ($("input[name=columnPopulationGroup_"+i+"-radio-choice-h-2]:checked").val() == "uni"){
       after = after +
         "    population: uniform("+$("#columnPopulation_"+i).val() +".."+ $("#columnPopulation_"+i+"_2").val()   +")\n"+
@@ -434,13 +434,13 @@ function downloadYaml(filename) {
 for (var i=0; i<likelyQueries.length; i++){
 	after = after + "   likelyquery"+i+": \n    cql: "+likelyQueries[i]+"\n    fields: samerow\n";
 }
- 
+
   var pom = $("#generateYaml")[0];
   pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(before + text + after));
   pom.setAttribute('download', filename);
 }
 
-		
+
 //$(document).on('blur', '#tableDef', function () {
 //processTableDef($("#tableDef").val());
 //});
@@ -463,13 +463,13 @@ $(document).on('keyup', '#tableDef', function () {
 
 /*
 $("#tableDef").bind('input propertychange', function() {
-/*	
+/*
   $.mobile.loading( 'show', {
     text: "Processing CQL Data Model",
     textVisible: true,
     theme: "b"
   }).trigger("create");
-*  / 
+*  /
    //myVar = setTimeout(processTableDef($("#tableDef").val()), 100000)
    processTableDef($("#tableDef").val());
 });
