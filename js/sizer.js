@@ -221,7 +221,8 @@ var processTableDef = function(value){
 	drawStorageEngine();
 
 	$("#countResults h3").remove();
-	$("#countResults").append("Download and run `cassandra-stress user profile=autoGen.yaml n=100000 ops\\(insert=1\\)` in your terminal");
+    $("#countResults p").remove();
+	$("#countResults").append("<p>Download and run `cassandra-stress user profile=autoGen.yaml n=100000 ops\\(insert=1\\)` in your terminal</p>");
 	$("#countResults").append("<h3>Likely select queries for this data model:</h3>");
 
 	if (value !="" && value != undefined){
