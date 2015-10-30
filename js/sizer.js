@@ -381,7 +381,7 @@ function downloadYaml(filename) {
         "    size: uniform("+$("#columnSize_"+i).val() +".."+ $("#columnSize_"+i+"_2").val()   +")\n";
     }if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "exp"){
       after = after + "  - name: "+ columns[i]  +"\n"+
-        "    size: exp("+$("#columnSize_"+i).val() +".."+ $("#columnPopulation_"+i+"_2").val() +")\n";
+        "    size: exp("+$("#columnSize_"+i).val() +".."+ $("#columnSize_"+i+"_2").val() +")\n";
     }if ($("input[name=columnSizeGroup_"+i+"-radio-choice-h-2]:checked").val() == "ext"){
       after = after + "  - name: "+ columns[i]  +"\n"+
         "    size: extreme("+$("#columnSize_"+i).val() +".."+ $("#columnSize_"+i+"_2").val()   +")\n";
@@ -402,7 +402,7 @@ function downloadYaml(filename) {
         " \n";
     }if ($("input[name=columnPopulationGroup_"+i+"-radio-choice-h-2]:checked").val() == "exp"){
       after = after +
-        "    population: exp("+$("#columnPopulation_"+i).val() +")\n"+
+        "    population: exp("+$("#columnPopulation_"+i).val() +".." + $("#columnPopulation_" +i+"_2").val()  +  ")\n"+
         " \n";
     }if ($("input[name=columnPopulationGroup_"+i+"-radio-choice-h-2]:checked").val() == "ext"){
       after = after +
