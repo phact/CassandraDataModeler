@@ -221,6 +221,7 @@ var processTableDef = function(value){
 	drawStorageEngine();
 
 	$("#countResults h3").remove();
+	$("#countResults").append("Download and run `cassandra-stress user profile=autoGen.yaml n=100000 ops\\(insert=1\\)` in your terminal");
 	$("#countResults").append("<h3>Likely select queries for this data model:</h3>");
 
 	if (value !="" && value != undefined){
@@ -401,7 +402,7 @@ function downloadYaml(filename) {
         " \n";
     }if ($("input[name=columnPopulationGroup_"+i+"-radio-choice-h-2]:checked").val() == "exp"){
       after = after +
-        "    population: exponential("+$("#columnPopulation_"+i).val() +")\n"+
+        "    population: exp("+$("#columnPopulation_"+i).val() +")\n"+
         " \n";
     }if ($("input[name=columnPopulationGroup_"+i+"-radio-choice-h-2]:checked").val() == "ext"){
       after = after +
