@@ -442,10 +442,11 @@ for (var i=0; i<likelyQueries.length; i++){
 }
 
 
-//$(document).on('blur', '#tableDef', function () {
-//processTableDef($("#tableDef").val());
-//});
+$(document).on('click', '#submit-button', function () {
+    processTableDef($("#tableDef").val());
+});
 
+/*
 var delay = (function(){
   var timer = 0;
   return function(callback, ms){
@@ -462,7 +463,6 @@ $(document).on('keyup', '#tableDef', function () {
 
 
 
-/*
 $("#tableDef").bind('input propertychange', function() {
 /*
   $.mobile.loading( 'show', {
