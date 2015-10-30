@@ -65,7 +65,7 @@ var processTableDef = function(value){
 	  $('#valid').css("color","white");
 		$('#valid').html("Table Validated");
 	    $('#parameters').append("<p>In order to generate a cassandra-stress yaml and provide diagnostic information about your data model we need some characteristics about your data.</br>Please let us know how big your fields will be (size distribution) and how frequently values appear (population distribution).</p>");
-		$('#parameters').append("<div style='width:200px'><h3>Number of Rows:</h3>"+"<input type='text' id='rowCount'></input></div>");
+		//$('#parameters').append("<div style='width:200px'><h3>Number of Rows:</h3>"+"<input type='text' id='rowCount'></input></div>");
 
 		var i=0;
 		columns =value.match(cqlColumnsRegex);
@@ -208,7 +208,7 @@ var processTableDef = function(value){
 
 	//bind
 	$("#parameters input").change(function(){
-    calculateSize();
+    //calculateSize();
 	});
 
 	//stat collection
