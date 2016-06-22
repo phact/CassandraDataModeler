@@ -9,7 +9,7 @@ function insertHistogram(divID){
                                      "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2d' value='norm'>"+
                                      "<label for='"+ divID  +"-radio-choice-h-2d' title='Sizes look like a bell curve / Frequency of occurences look like a bell curve'>Normal</label>"+
                                      "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2a' value='fixed'>"+
-                                    "<label for='"+ divID  +"-radio-choice-h-2a' title='Every value has the same size / Every value appears the same number of times' >Fixed"+
+                                    "<label for='"+ divID  +"-radio-choice-h-2a' title='Every record has the same size the specified value / Every record is always the same fixed value' >Fixed"+
                                     "</label>"+
                                      "<input type='radio' name='"+ divID  +"-radio-choice-h-2' id='"+ divID  +"-radio-choice-h-2e' value='uni'>"+
                                     "<label for='"+ divID  +"-radio-choice-h-2e' title='There is a wide range of sizes but they occurr with the same frequency / There is a range of cardinalities, but they occur with the same frequency'>Uniform</label>"+
