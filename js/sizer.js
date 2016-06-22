@@ -28,6 +28,14 @@ var processTableDef = function(value){
 	var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+\S+>,)*(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
 	var cqlCompoundPrimaryKeys = /\( *\( *\w+ *(, *[^\)]+ *)*\)/igm;
 	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\t* *;?$/igm;
+    var dashCommentsRegex = /--.+[\r\n]/gm;
+    var slashCommentsRegex = /\/\/.+[\r\n]/gm;
+    var extraSpaceRegex = /^\s+/gm;
+    var emptyLinesRegex = /^\s*[\r\n]/gm;
+    var pkWithCloseParen = /^\(* *\t*PRIMARY KEY\s*\(.+\)\s*\)?\s?/img;
+
+    //negative lookahead
+    var endOfColumnRegex = /,(?!\s?[a-z]+\s?>)/img;
 
 //Clear out parameters area.
 	$('#parameters input').remove();
@@ -35,15 +43,18 @@ var processTableDef = function(value){
 	$('#parameters div').remove();
 
 	//clean up the text area -- value
-	value = value.replace(/--.+[\r\n]/gm,"\n");
-	value = value.replace(/\/\/.+[\r\n]/gm,"\n");
-	value = value.replace(/^\s+/gm,"\n");
-	value = value.replace(/^\s*[\r\n]/gm,"");
-        pk = $("#tableDef").val().match(/^\(* *\t*PRIMARY KEY\s*\(.+\)\s*\)?.+?$/img)
-	value = value.replace(/^\(* *\t*PRIMARY KEY\s*\(.+\)\s*\)?.+?$/img,"")
-	value = value.replace(/,/gm,",\n")
+    value = value.match(cqlCreateTableRegex)[0];
+    value = value.toLowerCase();
+	value = value.replace(dashCommentsRegex,"\n");
+	value = value.replace(slashCommentsRegex,"\n");
+	value = value.replace(extraSpaceRegex,"\n");
+	value = value.replace(emptyLinesRegex,"");
+
+    pk = $("#tableDef").val().match(pkWithCloseParen)
+	value = value.replace(pkWithCloseParen,"")
+	value = value.replace(endOfColumnRegex,",\n")
 	value = value + pk[0].trim()
-	value = value.replace(/^\s*[\r\n]/gm,"");
+	value = value.replace(emptyLinesRegex,"");
 	$("#tableDef").val(value);
 
 
@@ -59,73 +70,72 @@ var processTableDef = function(value){
 
 
     keyList = [];
-		compKeyList = [];
-		staticList = [];
+    compKeyList = [];
+    staticList = [];
 
-	  $('#valid').css("color","white");
-		$('#valid').html("Table Validated");
-	    $('#parameters').append("<p>In order to generate a cassandra-stress yaml and provide diagnostic information about your data model we need some characteristics about your data.</br>Please let us know how big your fields will be (size distribution) and how frequently values appear (population distribution).</p>");
-		//$('#parameters').append("<div style='width:200px'><h3>Number of Rows:</h3>"+"<input type='text' id='rowCount'></input></div>");
+    $('#valid').html("Table Validated");
+    $('#parameters').append("<p>In order to generate a cassandra-stress yaml and provide diagnostic information about your data model we need some characteristics about your data.</br>Please let us know how big your fields will be (size distribution) and how frequently values appear (population distribution).</p>");
+    //$('#parameters').append("<div style='width:200px'><h3>Number of Rows:</h3>"+"<input type='text' id='rowCount'></input></div>");
 
-		var i=0;
-		columns =value.match(cqlColumnsRegex);
+    var i=0;
+    columns =value.match(cqlColumnsRegex);
 
     columns = columns.filter(function (d){ return d.indexOf(";") == -1 });
     //columns.pop(columns.indexOf(";"));
-		columnLength = columns.length;
+    columnLength = columns.length;
 
 
-		//identify explicit primary keys
-		keys = value.match(cqlPrimaryKeys);
-		if (keys !== null){
-			keys = keys.toString();
-			keys = keys.replace(/PRIMARY KEY/ig,"").replace(/;+/ig,"").replace(/\(+/ig,"").replace(/\)+/gi,"").trim().split(",");
-			keys = $.each(keys,function(i, v){
-				keys[i] = v.trim();
-			});
-		}
+    //identify explicit primary keys
+    keys = value.match(cqlPrimaryKeys);
+    if (keys !== null){
+        keys = keys.toString();
+        keys = keys.replace(/PRIMARY KEY/ig,"").replace(/;+/ig,"").replace(/\(+/ig,"").replace(/\)+/gi,"").trim().split(",");
+        keys = $.each(keys,function(i, v){
+            keys[i] = v.trim();
+        });
+    }
 
-		//identify explicit compound keys
-		var compKeys = value.match(cqlCompoundPrimaryKeys);
-		if (compKeys !== null){
-			compKeys = compKeys.toString();
-			compKeys = compKeys.replace("PRIMARY KEY","").replace(/\(+/ig,"").replace(/\)+/gi,"").trim().split(",");
-			compKeys = $.each(compKeys,function(i, v){
-				compKeys[i] = v.trim();
-			});
-		}
+    //identify explicit compound keys
+    var compKeys = value.match(cqlCompoundPrimaryKeys);
+    if (compKeys !== null){
+        compKeys = compKeys.toString();
+        compKeys = compKeys.replace("PRIMARY KEY","").replace(/\(+/ig,"").replace(/\)+/gi,"").trim().split(",");
+        compKeys = $.each(compKeys,function(i, v){
+            compKeys[i] = v.trim();
+        });
+    }
 
-		while (i<columnLength){
+    while (i<columnLength){
 
      // insertHistogram('columnSizeGroup_'+ i);
      //insertHistogram('columnPopulationGroup_'+ i);
 
 
-			colDat = columns[i].replace(/\(\S+\)/i,"").replace(/;/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(/\s+/);
-			columns[i] = colDat[0];
-			colString = "<font color='#cb5f17'>"+colDat[0]+"</font> of type "+colDat[1]+ ":";
+        colDat = columns[i].replace(/\(\S+\)/i,"").replace(/;/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(/\s+/);
+        columns[i] = colDat[0];
+        colString = "<font color='#cb5f17'>"+colDat[0]+"</font> of type "+colDat[1]+ ":";
 
-			//find primitives and assign default size
-			var defaultSize ="";
-			if (colDat[1] == "int" || colDat[1] == "integer"){
-				defaultSize = "4";
-			}
-			if (colDat[1] == "bigint"){
-				defaultSize = "8";
-			}
-			if (colDat[1] == "boolean"){
-				//because of Java word size
-				defaultSize = "4";
-			}
-			if (colDat[1] == "counter"){
-				defaultSize = "4";
-      }
-      if (colDat[1] == "double"){
-        defaultSize = "8";
-      }
-      if (colDat[1] == "float"){
-        defaultSize = "4";
-      }
+        //find primitives and assign default size
+        var defaultSize ="";
+        if (colDat[1] == "int" || colDat[1] == "integer"){
+            defaultSize = "4";
+        }
+        if (colDat[1] == "bigint"){
+            defaultSize = "8";
+        }
+        if (colDat[1] == "boolean"){
+            //because of Java word size
+            defaultSize = "4";
+        }
+        if (colDat[1] == "counter"){
+            defaultSize = "4";
+        }
+        if (colDat[1] == "double"){
+            defaultSize = "8";
+        }
+        if (colDat[1] == "float"){
+            defaultSize = "4";
+        }
       if (colDat[1] == "inet"){
         //per http://en.wikipedia.org/wiki/IPv6
         defaultSize = "32";
@@ -139,15 +149,18 @@ var processTableDef = function(value){
       if (colDat[1] == "timeuuid"){
         defaultSize = "32";
       }
+      if (colDat[1].includes("map")){
+        $('#parameters').append("<span style='color: rgb(203, 95, 23)'>Map collections are not currently supported, please remove your maps and try again.</span>");
+      }
 
 			//create input field
 			createInputField(colString,i,"size","Fixed");
 			//set value when known
 			$('#columnSize_'+ i ).val(defaultSize);
 
-			//create population input field
-      createInputField(colString,i,"population","Fixed");
-			//set value when known
+            //create population input field
+            createInputField(colString,i,"population","Fixed");
+            //set value when known
 			$('#column_Population'+ i ).val(defaultSize);
 
       $('[type="text"]').textinput();
@@ -225,6 +238,7 @@ var processTableDef = function(value){
 	$("#countResults").append("<p>Download and run `cassandra-stress user profile=autoGen.yaml n=100000 ops\\(insert=1\\)` in your terminal</p>");
 	$("#countResults").append("<h3>Likely select queries for this data model:</h3>");
 
+    keyspaceName = $("#keyspace").val()
 	if (value !="" && value != undefined){
 		tableName = value.match(/CREATE TABLE.+/i)[0].split(" ")[2];
 	}
@@ -353,7 +367,7 @@ function downloadYaml(filename) {
   var before = "### DML ### THIS IS UNDER CONSTRUCTION!!!\n"+
 " \n"+
 "# Keyspace Name\n"+
-"keyspace: autogeneratedtest\n"+
+"keyspace: "+ keyspaceName +"\n"+
 " \n"+
 "# The CQL for creating a keyspace (optional if it already exists)\n"+
 "keyspace_definition: |\n"+

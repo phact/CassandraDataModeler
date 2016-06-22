@@ -169,7 +169,7 @@ function insertHistogram(divID){
     .attr("x", 1)
     .attr("width", x2(d3.min(values) +data[0].dx) -1 )
     .attr("height", function(d) { return height - y(d.y); })
-    .style("fill","#38c");
+    .style("fill","#1287b1");
 
 
     svg.append("g")
