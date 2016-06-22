@@ -14,15 +14,6 @@ var columnLength = 0;
 var primaryKey;
 
 var processTableDef = function(value){
-/*
-  $.mobile.loading( 'show', {
-  text: "Processing CQL Data Model",
-  textVisible: true,
-  theme: "b"
-  }).trigger("create");
-*/
-
-
 //here's the regex defs
 	var cqlCreateTableRegex  = /^\s? *\t*CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+\S+)*(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig ;
 	var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+\S+>,)*(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
@@ -42,32 +33,13 @@ var processTableDef = function(value){
 	$('#parameters p, h2 ').remove();
 	$('#parameters div').remove();
 
-	//clean up the text area -- value
-    value = value.match(cqlCreateTableRegex)[0];
-    value = value.toLowerCase();
-	value = value.replace(dashCommentsRegex,"\n");
-	value = value.replace(slashCommentsRegex,"\n");
-	value = value.replace(extraSpaceRegex,"\n");
-	value = value.replace(emptyLinesRegex,"");
-
-    pk = $("#tableDef").val().match(pkWithCloseParen)
-	value = value.replace(pkWithCloseParen,"")
-	value = value.replace(endOfColumnRegex,",\n")
-	value = value + pk[0].trim()
-	value = value.replace(emptyLinesRegex,"");
-	$("#tableDef").val(value);
-
-
 //	is the table definition valid?
 	if(cqlCreateTableRegex.test(value)){
-
-
     $.mobile.loading( 'show', {
       text: "Processing CQL Data Model",
       textVisible: true,
       theme: "b"
     });
-
 
     keyList = [];
     compKeyList = [];
@@ -83,7 +55,6 @@ var processTableDef = function(value){
     columns = columns.filter(function (d){ return d.indexOf(";") == -1 });
     //columns.pop(columns.indexOf(";"));
     columnLength = columns.length;
-
 
     //identify explicit primary keys
     keys = value.match(cqlPrimaryKeys);
@@ -106,11 +77,6 @@ var processTableDef = function(value){
     }
 
     while (i<columnLength){
-
-     // insertHistogram('columnSizeGroup_'+ i);
-     //insertHistogram('columnPopulationGroup_'+ i);
-
-
         colDat = columns[i].replace(/\(\S+\)/i,"").replace(/;/i,"").replace(/\(/i,"").replace(/\)/i,"").replace(/,/i,"").trim().split(/\s+/);
         columns[i] = colDat[0];
         colString = "<font color='#cb5f17'>"+colDat[0]+"</font> of type "+colDat[1]+ ":";
@@ -273,23 +239,18 @@ var processTableDef = function(value){
   $("#tabs").click(function() { downloadYaml("autoGen.yaml")} );
 	downloadYaml("autoGen.yaml");
 
-
-  $.mobile.loading('hide');
+	$.mobile.loading('hide');
 
 }
 
-
 var calculateSize = function(){
-
 	//Here we'll be doing some math to figure out the table size etc:
 	/* Here's the math
+		Number of rows * ( Number of Columns - Partition Keys - Static Columns ) + Static Columns = Number of Values
 
-Number of rows * ( Number of Columns - Partition Keys - Static Columns ) + Static Columns = Number of Values
 
-
-Sum of the size of the Keys + Sum of the size of the static columns + Number of rows *
-	( Sum of the size of the rows + Sum of the size of the Clustering Columns) +  8 * Number of Values = Size of table
-
+		Sum of the size of the Keys + Sum of the size of the static columns + Number of rows *
+		( Sum of the size of the rows + Sum of the size of the Clustering Columns) +  8 * Number of Values = Size of table
 	*/
 	$('#countResults').remove("p");
 
@@ -361,7 +322,7 @@ Sum of the size of the Keys + Sum of the size of the static columns + Number of 
 
 //Ugly....
 function downloadYaml(filename) {
-  var text = $("#tableDef").val();
+  var text = editor.getValue();
 //yaml requires that we have spaces in the table def...
   text = "  "+ text.replace(/\n/g,"\n  ");
   var before = "### DML ### THIS IS UNDER CONSTRUCTION!!!\n"+
@@ -458,41 +419,5 @@ for (var i=0; i<likelyQueries.length; i++){
 
 
 $(document).on('click', '#submit-button', function () {
-    processTableDef($("#tableDef").val());
+    processTableDef(editor.getValue());
 });
-
-/*
-var delay = (function(){
-  var timer = 0;
-  return function(callback, ms){
-    clearTimeout (timer);
-    timer = setTimeout(callback, ms);
-  };
-})();
-
-$(document).on('keyup', '#tableDef', function () {
-  delay(function(){
-    processTableDef($("#tableDef").val());
-  }, 1000 );
-});
-
-
-
-$("#tableDef").bind('input propertychange', function() {
-/*
-  $.mobile.loading( 'show', {
-    text: "Processing CQL Data Model",
-    textVisible: true,
-    theme: "b"
-  }).trigger("create");
-*  /
-   //myVar = setTimeout(processTableDef($("#tableDef").val()), 100000)
-   processTableDef($("#tableDef").val());
-});
-*/
-
-/*
-$(document).bind("mobileinit", function(){
-  $.mobile.touchOverflowEnabled = true;
-});
-*/
