@@ -2846,7 +2846,8 @@ li.ui-block-e {
     -webkit-transform: translate3d(0, 0, 0)
 }
 .ui-navbar {
-    max-width: 100%
+    max-width: 90%;
+    margin-left: 5%;
 }
 .ui-navbar ul:before,
 .ui-navbar ul:after {
@@ -2870,7 +2871,7 @@ li.ui-block-e {
     font-size: 12.5px;
     display: block;
     margin: 0;
-    border-right-width: 0
+    border-right-width: 1px
 }
 .ui-header .ui-navbar li button.ui-btn,
 .ui-footer .ui-navbar li button.ui-btn {

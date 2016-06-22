@@ -46,3 +46,8 @@ insert, .ui-input-text{
     display:inline-block;
 }
 
+hr {
+    border-color: rgb(221,221,221);
+    border-width: 1px;
+    border-style: solid;
+}
