@@ -142,4 +142,4 @@ var drawStorageEngine = function(){
 
 }
 
-processTableDef(editor.getValue());
+processTableDef();

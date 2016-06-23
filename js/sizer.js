@@ -13,21 +13,39 @@ var compLength = 0;
 var columnLength = 0;
 var primaryKey;
 
-var processTableDef = function(value){
 //here's the regex defs
-	var cqlCreateTableRegex  = /^\s? *\t*CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+\S+)*(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig ;
-	var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+\S+>,)*(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
-	var cqlCompoundPrimaryKeys = /\( *\( *\w+ *(, *[^\)]+ *)*\)/igm;
-	var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\t* *;?$/igm;
-    var dashCommentsRegex = /--.+[\r\n]/gm;
-    var slashCommentsRegex = /\/\/.+[\r\n]/gm;
-    var extraSpaceRegex = /^\s+/gm;
-    var emptyLinesRegex = /^\s*[\r\n]/gm;
-    var pkWithCloseParen = /^\(* *\t*PRIMARY KEY\s*\(.+\)\s*\)?\s?/img;
+var cqlCreateTableRegex  = /^\s? *\t*CREATE\s+TABLE\s+(\S+)\s*\(\s*( *\t*\S+\s+\S+(\s+\S+)*(\s+PRIMARY KEY|\s+static)*\s*,\s*)+(( *\t*\S+\s+\S+\s*\)$)|( *\t*PRIMARY KEY\s*\(.+\)\s*\)))/ig ;
+var cqlColumnsRegex = /^\(* *\t*\S+\s+\S+(\s+\S+>,)*(\s+PRIMARY KEY|\s+static)*\s*,*\s*$/igm;
+var cqlCompoundPrimaryKeys = /\( *\( *\w+ *(, *[^\)]+ *)*\)/igm;
+var cqlPrimaryKeys = /^\(* *\t*PRIMARY KEY\s*\(.+\)\t* *;?$/igm;
+var dashCommentsRegex = /--.+[\r\n]/gm;
+var slashCommentsRegex = /\/\/.+[\r\n]/gm;
+var extraSpaceRegex = /^\s+/gm;
+var emptyLinesRegex = /^\s*[\r\n]/gm;
+var pkWithCloseParen = /^\(* *\t*PRIMARY KEY\s*\(.+\)\s*\)?\s?/img;
 
-    //negative lookahead
-    var endOfColumnRegex = /,(?!\s?[a-z]+\s?>)/img;
+//negative lookahead
+var endOfColumnRegex = /,(?!\s?[a-z]+\s?>)/img;
 
+var getCreateStatement = function() {
+	var value = editor.getValue();
+	value = value.match(cqlCreateTableRegex)[0];
+	value = value.toLowerCase();
+	value = value.replace(dashCommentsRegex,"\n");
+	value = value.replace(slashCommentsRegex,"\n");
+	value = value.replace(extraSpaceRegex,"\n");
+	value = value.replace(emptyLinesRegex,"");
+
+	pk = value.match(pkWithCloseParen)
+	value = value.replace(pkWithCloseParen,"")
+	value = value.replace(endOfColumnRegex,",\n")
+	value = value + pk[0].trim()
+	value = value.replace(emptyLinesRegex,"");
+	console.log(value);
+	return value;
+}
+var processTableDef = function(){
+	var value = getCreateStatement();
 //Clear out parameters area.
 	$('#parameters input').remove();
 	$('#parameters p, h2 ').remove();
@@ -200,11 +218,11 @@ var processTableDef = function(value){
 	drawStorageEngine();
 
 	$("#countResults h3").remove();
-    $("#countResults p").remove();
+	$("#countResults p").remove();
 	$("#countResults").append("<p>Download and run `cassandra-stress user profile=autoGen.yaml n=100000 ops\\(insert=1\\)` in your terminal</p>");
 	$("#countResults").append("<h3>Likely select queries for this data model:</h3>");
 
-    keyspaceName = $("#keyspace").val()
+	keyspaceName = $("#keyspace").val()
 	if (value !="" && value != undefined){
 		tableName = value.match(/CREATE TABLE.+/i)[0].split(" ")[2];
 	}
@@ -322,7 +340,7 @@ var calculateSize = function(){
 
 //Ugly....
 function downloadYaml(filename) {
-  var text = editor.getValue();
+  var text = getCreateStatement();
 //yaml requires that we have spaces in the table def...
   text = "  "+ text.replace(/\n/g,"\n  ");
   var before = "### DML ### THIS IS UNDER CONSTRUCTION!!!\n"+
@@ -419,5 +437,5 @@ for (var i=0; i<likelyQueries.length; i++){
 
 
 $(document).on('click', '#submit-button', function () {
-    processTableDef(editor.getValue());
+    processTableDef();
 });

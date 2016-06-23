@@ -76,7 +76,7 @@ div.CodeMirror span.CodeMirror-matchingbracket {
                 Provide some information about your table definition, and the size, population, and cluster distributions of each of your fields and the tool will give you a script you can use to benchmark your data model and a storage engine visualization.</br></br>
                 Please input your table definition for one table, keeping the Create statement, field definitions, and Primary Key definition on separate lines.</p>
                 <input style="display:block" id="keyspace" placeholder="Keyspace Name" value="test_keyspace"></input>	</br>
-                <textarea id="tableDef">
+                <textarea id="tableDef" placeholder="Create Table Statement" >
 CREATE TABLE reviews_by_day (
     userid text,
     day int,
